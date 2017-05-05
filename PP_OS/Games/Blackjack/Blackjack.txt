@@ -1,0 +1,9 @@
+﻿It is relatively quick and easy to learn the basics of Blackjack. The aim of the game is to simply obtain a higher total card count than the Dealer, without going over 21.
+
+Before any cards are dealt the Player must place a wager. The player will then be dealt 2 cards face up; the Dealer will also be dealt 2 cards but only one card will be placed face up, the other will be placed face down. The Player must now decide whether to take another card (hit), or to stick with the cards they have. Once Players have decided on their play, the Dealer will only then decide how to play their hand.
+
+The goal of twenty one is simple; beat the house`s combination by acquiring a combined card count of 21 or under. Aces are valued as either 1 or eleven, picture cards Kings, Queens and Jacks have a card count of ten, and all cards are given their numeric face value, i.e. 7 is valued as 7 points, 2 is valued at 2 points... etc.
+
+If the Player's total goes over 21, the Player loses the amount wagered.
+
+Players in the Download version of the Casino Game, have the option to play 1 or 2 hands against the Dealer at the same time.
