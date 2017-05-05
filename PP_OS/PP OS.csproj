@@ -76,19 +76,19 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Button.cs" />
-    <Compile Include="FileManager.cs" />
+    <Compile Include="Objects\Button.cs" />
+    <Compile Include="Tools\FileManager.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameScreenManager.cs" />
-    <Compile Include="Input.cs" />
+    <Compile Include="ScreenManager\GameScreenManager.cs" />
+    <Compile Include="Tools\Input.cs" />
     <Compile Include="Interfaces.cs" />
-    <Compile Include="MainScreen.cs" />
-    <Compile Include="Particle.cs" />
-    <Compile Include="ParticleSystem.cs" />
+    <Compile Include="ScreenManager\MainScreen.cs" />
+    <Compile Include="Tools\ParticleSystem\Particle.cs" />
+    <Compile Include="Tools\ParticleSystem\ParticleSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Thumbnail.cs" />
-    <Compile Include="ThumbnailScreen.cs" />
+    <Compile Include="Objects\Thumbnail.cs" />
+    <Compile Include="ScreenManager\ThumbnailScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
