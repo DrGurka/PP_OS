@@ -45,54 +45,29 @@ namespace PP_OS
                 for (int j = 0; j < filesInDir.Length; j++)
                 {
 
-                    switch(j)
+                    for (int x = 0; x < filesInDir.Length; x++)
                     {
 
-                        case 0:
+                        if (filesInDir[x].ToString().EndsWith(".exe"))
+                        {
 
-                            for (int x = 0; x < filesInDir.Length; x++)
-                            {
+                            fileNames[i, 0] = directories[i] + @"\" + filesInDir[x];
+                        }
+                        else if (filesInDir[x].ToString().EndsWith(".png"))
+                        {
 
-                                if (filesInDir[x].ToString().EndsWith(".exe"))
-                                {
+                            fileNames[i, 1] = directories[i] + @"\" + filesInDir[x];
+                        }
+                        else if (filesInDir[x].ToString().EndsWith(".txt"))
+                        {
 
-                                    fileNames[i, j] = directories[i] + @"\" + filesInDir[x];
-                                }
-                            }
-                            break;
-                        case 1:
-                            for (int x = 0; x < filesInDir.Length; x++)
-                            {
+                            fileNames[i, 2] = directories[i] + @"\" + filesInDir[x];
+                        }
+                        else if (filesInDir[x].ToString().EndsWith(".mp3"))
+                        {
 
-                                if (filesInDir[x].ToString().EndsWith(".png"))
-                                {
-
-                                    fileNames[i, j] = directories[i] + @"\" + filesInDir[x];
-                                }
-                            }
-                            break;
-                        case 2:
-                            for (int x = 0; x < filesInDir.Length; x++)
-                            {
-
-                                if (filesInDir[x].ToString().EndsWith(".txt"))
-                                {
-
-                                    fileNames[i, j] = directories[i] + @"\" + filesInDir[x];
-                                }
-                            }
-                            break;
-                        case 3:
-                            for (int x = 0; x < filesInDir.Length; x++)
-                            {
-
-                                if (filesInDir[x].ToString().EndsWith(".mp3"))
-                                {
-
-                                    fileNames[i, j] = directories[i] + @"\" + filesInDir[x];
-                                }
-                            }
-                            break;
+                            fileNames[i, 3] = directories[i] + @"\" + filesInDir[x];
+                        }
                     }
                 }
                 
