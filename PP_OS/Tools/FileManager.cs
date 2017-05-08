@@ -48,10 +48,14 @@ namespace PP_OS
                     for (int x = 0; x < filesInDir.Length; x++)
                     {
 
-                        if (filesInDir[x].ToString().EndsWith(".exe"))
+                        if (filesInDir[x].ToString().EndsWith(".bat") || filesInDir[x].ToString().EndsWith(".exe"))
                         {
 
-                            fileNames[i, 0] = directories[i] + @"\" + filesInDir[x];
+                            if(fileNames[i, 0] == null)
+                            {
+
+                                fileNames[i, 0] = directories[i] + @"\" + filesInDir[x];
+                            }
                         }
                         else if (filesInDir[x].ToString().EndsWith(".png"))
                         {

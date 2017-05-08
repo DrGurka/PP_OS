@@ -103,11 +103,7 @@ namespace PP_OS
                 }
             }
 
-            if(!IsProcessOpen(name) && processRunning)
-            {
-
-                processRunning = false;
-            }
+            processRunning = IsProcessOpen(name);
 
             if(Game1.CurrentThumbnail == index)
             {
@@ -213,7 +209,6 @@ namespace PP_OS
             {
 
                 Process.Start(Directory.GetCurrentDirectory() + @"\" + exePath);
-                processRunning = true;
             }
         }
 
