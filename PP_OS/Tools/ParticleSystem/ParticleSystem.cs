@@ -47,7 +47,7 @@ namespace PP_OS
 
             Random rand = new Random(DateTime.Now.Ticks.GetHashCode());
             randomSpeed *= 10;
-            cPart += particlesPerUpdate;
+            cPart += particlesPerUpdate * Game1.Delta;
             partNew = (int)Math.Round(cPart);
             cPart -= partNew;
 

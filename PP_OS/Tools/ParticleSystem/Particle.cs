@@ -174,7 +174,7 @@ namespace PP_OS
 
         public void Update(GameTime gameTime)
         {
-            position += velocity;
+            position += velocity * Game1.Delta;
 
             layer = baseLayer + (position.Y / 10000);
 

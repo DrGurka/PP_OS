@@ -28,6 +28,8 @@ namespace PP_OS
         static int currentThumbnail;
         static int thumbnailCount;
 
+        static float delta;
+
         public static int CurrentThumbnail
         {
             get
@@ -127,6 +129,14 @@ namespace PP_OS
             }
         }
 
+        public static float Delta
+        {
+            get
+            {
+                return delta * 60;
+            }
+        }
+
         public Game1()
         {
 
@@ -136,8 +146,11 @@ namespace PP_OS
             {
 
                 PreferredBackBufferWidth = (int)screenSize.X,
-                PreferredBackBufferHeight = (int)screenSize.Y
+                PreferredBackBufferHeight = (int)screenSize.Y,
+                SynchronizeWithVerticalRetrace = false
             };
+
+            IsFixedTimeStep = false;
 
             Window.IsBorderless = true;
             Content.RootDirectory = "Content";
@@ -186,6 +199,8 @@ namespace PP_OS
 
             if (!paused)
             {
+
+                delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                 screenManager.ChangeBetweenScreens();
 

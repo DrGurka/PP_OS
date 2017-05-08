@@ -89,7 +89,7 @@ namespace PP_OS
                 button.Position = new Vector2(position.X + (texture.Width / 2) - button.Width, position.Y + (texture.Height / 2f) + 4);
                 button.Update(gameTime);
 
-                position.X += ((((index - Game1.CurrentThumbnail) * 640) + ((Game1.ScreenSize.X / 2f))) - (position.X)) * 0.1f;
+                position.X += (((((index - Game1.CurrentThumbnail) * 640) + ((Game1.ScreenSize.X / 2f))) - (position.X)) * 0.1f) * Game1.Delta;
 
                 if (position.X < (Game1.ScreenSize.X / 2))
                 {
