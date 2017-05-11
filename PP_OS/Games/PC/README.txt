@@ -1,4 +1,4 @@
-﻿Place you game folders in this directory!
+﻿Place your pc games folders in this directory!
 
 The folder should have the same name as the rest of the files, the only difference should be the extension.
 

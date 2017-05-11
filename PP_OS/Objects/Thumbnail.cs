@@ -235,7 +235,11 @@ namespace PP_OS
                 spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)(Game1.ScreenSize.Y / 5f) + (int)(Game1.SpriteFont.MeasureString(name).Y + 6), (int)Game1.SpriteFont.MeasureString(name).X * 2, 4), null, Color.Black * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
                 spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)(Game1.ScreenSize.Y / 5f) - (int)(Game1.SpriteFont.MeasureString(name).Y + 12), (int)(Game1.SpriteFont.MeasureString(name).X * 2), 4), null, Color.Black * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
 
-                spriteBatch.DrawString(Game1.SpriteFont, platform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 5f) - (Game1.SpriteFont.MeasureString(name).Y * 2) - 12), Color.Black * alpha, 0.0f, Game1.SpriteFont.MeasureString(platform) / 2f, 2f, SpriteEffects.None, 0.1f);
+                if (MainScreen.PlatformsCount > 1)
+                {
+
+                    spriteBatch.DrawString(Game1.SpriteFont, platform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 5f) - (Game1.SpriteFont.MeasureString(name).Y * 2) - 12), Color.Black * alpha, 0.0f, Game1.SpriteFont.MeasureString(platform) / 2f, 2f, SpriteEffects.None, 0.1f);
+                }
 
                 if (!Game1.Paused && processRunning)
                 {

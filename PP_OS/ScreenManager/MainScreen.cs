@@ -17,7 +17,7 @@ namespace PP_OS
         GraphicsDevice graphicsDevice;
 
         List<Thumbnail> thumbnails;
-        List<string> platforms;
+        static List<string> platforms;
         static Button button;
         FileManager fileManager;
         Thumbnail pausedThumbNail;
@@ -36,6 +36,12 @@ namespace PP_OS
         bool releasedY, releasedX;
 
         public bool IsPaused { get; private set; }
+
+        public static int PlatformsCount
+        {
+
+            get { return platforms.Count; }
+        }
 
         public static Button Button
         {
@@ -229,9 +235,6 @@ namespace PP_OS
                 }
             }
 
-            arrowUp.Draw(spriteBatch);
-            arrowDown.Draw(spriteBatch);
-
             if (thumbnails.Count <= 0)
             {
 
@@ -239,14 +242,19 @@ namespace PP_OS
                 spriteBatch.DrawString(font, "Read Info.txt in the Games folder for more information", new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 16), Color.Black, 0.0f, new Vector2(font.MeasureString("Read Info.txt in the Games folder for more information").X / 2f, 0), 1f, SpriteEffects.None, 0.1f);
             }
 
-            var upperPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
+            if (platforms.Count > 1)
+            {
 
-            spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) - 160), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
+                arrowUp.Draw(spriteBatch);
+                arrowDown.Draw(spriteBatch);
 
-            var lowerPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
+                var upperPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
+                spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) - 160), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
 
-            spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 160), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
-
+                var lowerPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
+                spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 160), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
+            }
+            
             spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y), null, (signInvert ? Color.White : Color.Black), 0.0f, new Vector2(sign.Width / 2f, sign.Height + 1), 2f, SpriteEffects.None, 1.0f);
         }
 
@@ -259,42 +267,50 @@ namespace PP_OS
                 if (Input.LeftThumbstick.Y > 0.2 || Input.DPadDownPressed)
                 {
 
-                    if (Game1.CurrentPlatform < platforms.Count - 1)
+                    if (platforms.Count > 1)
                     {
 
-                        lastPlatform = 1;
-                        Game1.CurrentPlatform++;
-                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                        arrowUp.Activate();
-                    }
-                    else
-                    {
+                        if (Game1.CurrentPlatform < platforms.Count - 1)
+                        {
 
-                        lastPlatform = 1;
-                        Game1.CurrentPlatform = 0;
-                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                        arrowUp.Activate();
+                            lastPlatform = 1;
+                            Game1.CurrentPlatform++;
+                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                            arrowUp.Activate();
+                        }
+                        else
+                        {
+
+                            lastPlatform = 1;
+                            Game1.CurrentPlatform = 0;
+                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                            arrowUp.Activate();
+                        }
                     }
                     releasedY = false;
                 }
                 else if (Input.LeftThumbstick.Y < -0.2 || Input.DPadUpPressed)
                 {
 
-                    if (Game1.CurrentPlatform > 0)
+                    if (platforms.Count > 1)
                     {
 
-                        lastPlatform = -1;
-                        Game1.CurrentPlatform--;
-                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                        arrowDown.Activate();
-                    }
-                    else
-                    {
+                        if (Game1.CurrentPlatform > 0)
+                        {
 
-                        lastPlatform = -1;
-                        Game1.CurrentPlatform = platforms.Count - 1;
-                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                        arrowDown.Activate();
+                            lastPlatform = -1;
+                            Game1.CurrentPlatform--;
+                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                            arrowDown.Activate();
+                        }
+                        else
+                        {
+
+                            lastPlatform = -1;
+                            Game1.CurrentPlatform = platforms.Count - 1;
+                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                            arrowDown.Activate();
+                        }
                     }
                     releasedY = false;
                 }
