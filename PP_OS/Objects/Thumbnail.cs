@@ -12,18 +12,21 @@ namespace PP_OS
 
         Texture2D texture;
         Vector2 position;
+
         string info;
         string exePath;
-        float layer;
-        int index;
         string name;
+
+        float layer;
         float alpha;
+
+        int index;
+                
         bool processRunning;
         bool playing;
         bool paused;
 
         Song song;
-
         Button button;
 
         public int Index
@@ -171,6 +174,7 @@ namespace PP_OS
                 spriteBatch.Draw(Game1.Rect, new Rectangle((int)position.X - (texture.Width / 2), (int)position.Y - (texture.Height / 2), texture.Width, texture.Height), null, Color.Black * 0.5f, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
                 spriteBatch.DrawString(Game1.SpriteFont, "Running!", new Vector2(position.X, position.Y), Color.White, 0.0f, Game1.SpriteFont.MeasureString("Running!") / 2f, 1, SpriteEffects.None, 1.0f);
             }
+
             spriteBatch.Draw(texture, position, null, Color.White * alpha, 0.0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, layer);
 
             if (Game1.CurrentThumbnail == index)
@@ -183,6 +187,9 @@ namespace PP_OS
                 }
 
                 spriteBatch.DrawString(Game1.SpriteFont, name, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y / 5f), Color.Black * alpha, 0.0f, new Vector2(Game1.SpriteFont.MeasureString(name).X / 2, 0), 2, SpriteEffects.None, 0.1f);
+
+                spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)(Game1.ScreenSize.Y / 4f), (int)Game1.SpriteFont.MeasureString(name).X * 2, 4), null, Color.Black * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)(Game1.ScreenSize.Y / 4f) - (int)(Game1.SpriteFont.MeasureString(name).Y * 2) - 22, (int)(Game1.SpriteFont.MeasureString(name).X * 2), 4), null, Color.Black * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
 
                 if (!Game1.Paused && processRunning)
                 {

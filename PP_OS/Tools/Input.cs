@@ -246,7 +246,6 @@ namespace PP_OS
         {
 
             GamePadState gp = GamePad.GetState(PlayerIndex.One);
-
             KeyboardState ks = Keyboard.GetState();
 
             leftThumbstick = gp.ThumbSticks.Left;
@@ -255,7 +254,6 @@ namespace PP_OS
             {
 
                 button1Pressed = gp.IsButtonDown(Buttons.A) || ks.IsKeyDown(Keys.Enter);
-
             }
             else
             {
@@ -270,7 +268,6 @@ namespace PP_OS
             {
 
                 button3Pressed = gp.IsButtonDown(Buttons.Y) || ks.IsKeyDown(Keys.Y);
-
             }
             else
             {
@@ -285,7 +282,6 @@ namespace PP_OS
             {
 
                 button4Pressed = gp.IsButtonDown(Buttons.B) || ks.IsKeyDown(Keys.Back);
-
             }
             else
             {
@@ -300,7 +296,6 @@ namespace PP_OS
             {
 
                 dPadLeftPressed = gp.IsButtonDown(Buttons.DPadLeft) || ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A);
-
             }
             else
             {
@@ -315,7 +310,6 @@ namespace PP_OS
             {
 
                 dPadRightPressed = gp.IsButtonDown(Buttons.DPadRight) || ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D);
-
             }
             else
             {

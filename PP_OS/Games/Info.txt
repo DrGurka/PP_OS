@@ -3,7 +3,7 @@
 The folder should have the same name as the rest of the files, the only difference should be the extension.
 
 You MUST have these:
-*.exe (This is your game executable)
+*.exe or *.bat (This is your game executable or a batch that runs the executable) [Prioritieses batch files first]
 *.png (This is your games thumbnail in the program)
 
 You can also have these:

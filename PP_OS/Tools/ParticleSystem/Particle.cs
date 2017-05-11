@@ -16,7 +16,6 @@ namespace PP_OS
         float alpha;
         float deathTimer;
         bool isAlive;
-        float baseLayer;
         float acceleration;
         Color color;
         float startTime;
@@ -169,14 +168,11 @@ namespace PP_OS
             this.startTime = startTime;
 
             isAlive = true;
-            baseLayer = layer;
         }
 
         public void Update(GameTime gameTime)
         {
             position += velocity * Game1.Delta;
-
-            layer = baseLayer + (position.Y / 10000);
 
             var tmpTime = startTime + ((deathTimer - gameTime.TotalGameTime.TotalMilliseconds) / 2);
 
@@ -188,12 +184,12 @@ namespace PP_OS
             else
             {
 
-                
                 alpha = 1 - Math.Min((float)((gameTime.TotalGameTime.TotalMilliseconds - startTime) / (deathTimer - startTime)), 1);
             }
 
             if (gameTime.TotalGameTime.TotalMilliseconds > deathTimer)
             {
+
                 isAlive = false;
             }
         }

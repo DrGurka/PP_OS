@@ -38,6 +38,7 @@ namespace PP_OS
 
             foreach (Particle particle in particles)
             {
+
                 particle.Draw(spriteBatch);
             }
         }
@@ -46,25 +47,25 @@ namespace PP_OS
         {
 
             Random rand = new Random(DateTime.Now.Ticks.GetHashCode());
+
             randomSpeed *= 10;
             cPart += particlesPerUpdate * Game1.Delta;
             partNew = (int)Math.Round(cPart);
             cPart -= partNew;
 
-            Vector2 position = new Vector2(rand.Next(region.X, region.Width), rand.Next(region.Y, region.Height));
-
             for (int i = 0; i < partNew; i++)
             {
 
+                Vector2 position = new Vector2(rand.Next(region.X, region.Width), rand.Next(region.Y, region.Height));
+
                 float dir = direction + rand.Next(-randomDirection, randomDirection);
+                float spd = Math.Max(0.1f, speed + (rand.Next(-randomSpeed, randomSpeed) * 0.1f));
+                float time = deathTimer + rand.Next(randomTime);
 
                 int tmpSize = size + rand.Next(randomSize);
 
-                float spd = Math.Max(0.1f, speed + (rand.Next(-randomSpeed, randomSpeed) * 0.1f));
-
-                float time = deathTimer + rand.Next(randomTime);
-
                 Color tmpColor = Color.Black;
+
                 if (randomColor.X > 0)
                 {
 
