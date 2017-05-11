@@ -124,7 +124,7 @@ namespace PP_OS
                 button.Update(gameTime);
                 button.Alpha = alpha;
 
-                position.Y += (((((platformIndex - Game1.CurrentPlatform) * 360) + ((Game1.ScreenSize.Y / 2f))) - (position.Y)) * 0.05f) * Game1.Delta;
+                position.Y += (((((platformIndex - Game1.CurrentPlatform) * 135) + ((Game1.ScreenSize.Y / 2f))) - (position.Y)) * 0.05f) * Game1.Delta;
                 position.X += (((((index - Game1.CurrentThumbnail) * 640) + ((Game1.ScreenSize.X / 2f))) - (position.X)) * 0.1f) * Game1.Delta;
 
                 if (position.X < (Game1.ScreenSize.X / 2))
@@ -141,12 +141,12 @@ namespace PP_OS
                 if (position.Y < (Game1.ScreenSize.Y / 2))
                 {
 
-                    alpha *= Math.Max(Math.Min(((position.Y - ((Game1.ScreenSize.Y / 2) - (texture.Height))) / (texture.Height)), 1), 0);
+                    alpha *= Math.Max(Math.Min(((position.Y - ((Game1.ScreenSize.Y / 2) - (texture.Height / 2))) / (texture.Height / 2)), 1), 0);
                 }
                 else
                 {
 
-                    alpha *= Math.Max(Math.Min(((texture.Height * 2) - ((position.Y - ((Game1.ScreenSize.Y / 2) - (texture.Height))))) / (texture.Height), 1), 0);
+                    alpha *= Math.Max(Math.Min(((texture.Height) - ((position.Y - ((Game1.ScreenSize.Y / 2) - (texture.Height / 2))))) / (texture.Height / 2), 1), 0);
                 }
             }
 
