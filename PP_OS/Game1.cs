@@ -25,6 +25,7 @@ namespace PP_OS
         static Vector2 screenSize;
 
         static int currentThumbnail;
+        static int currentPlatform;
         static int thumbnailCount;
 
         static float delta;
@@ -133,6 +134,19 @@ namespace PP_OS
             get
             {
                 return delta * 60;
+            }
+        }
+
+        public static int CurrentPlatform
+        {
+            get
+            {
+                return currentPlatform;
+            }
+
+            set
+            {
+                currentPlatform = value;
             }
         }
 

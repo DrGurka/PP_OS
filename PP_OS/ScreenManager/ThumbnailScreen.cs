@@ -19,6 +19,10 @@ namespace PP_OS
         Button button;
         Thumbnail currentThumbnail;
 
+        Vector2 boxPosition;
+        Vector2 boxSize;
+        Rectangle boxBounds;
+
         static bool isActive;
 
         public bool IsPaused { get; private set; }
@@ -43,6 +47,8 @@ namespace PP_OS
             this.infoText = infoText;
             this.exePath = exePath;
             this.currentThumbnail = currentThumbnail;
+
+            MainScreen.SignInvert = true;
         }
 
         public void Initialize(ContentManager contentManager)
@@ -50,6 +56,10 @@ namespace PP_OS
 
             button = new Button(Button.ButtonTexture.ButtonB, new Vector2(Game1.ScreenSize.X - 60, Game1.ScreenSize.Y - 66), 1.0f, "Back", true, 400, 3, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
             isActive = true;
+            button.Alpha = 1;
+
+            boxPosition = new Vector2((int)(Game1.ScreenSize.X / 2f), (int)(Game1.ScreenSize.Y / 2f));
+            boxBounds = new Rectangle(0, 0, (int)Game1.ScreenSize.X, (int)Game1.ScreenSize.Y);
         }
 
         public void ChangeBetweenScreens()
@@ -77,6 +87,24 @@ namespace PP_OS
         public void Update(GameTime gameTime)
         {
 
+            if(boxSize.X < boxBounds.Width)
+            {
+
+                float x = (boxBounds.X - boxPosition.X) * 0.1f;
+                float y = (boxBounds.Y - boxPosition.Y) * 0.1f;
+                float width = (boxBounds.Width - boxSize.X) * 0.1f;
+                float height = (boxBounds.Height - boxSize.Y) * 0.1f;
+
+                boxSize += new Vector2(width, height);
+                boxPosition += new Vector2(x, y);
+            }
+            else
+            {
+
+                boxPosition = new Vector2(boxBounds.X, boxBounds.Y);
+                boxSize = new Vector2(boxBounds.Width, boxBounds.Height);
+            }
+
             if (!Game1.Paused)
             {
 
@@ -88,8 +116,8 @@ namespace PP_OS
         {
 
             button.Draw(spriteBatch);
-            spriteBatch.Draw(Game1.Rect, new Rectangle(0, 0, (int)Game1.ScreenSize.X, (int)Game1.ScreenSize.Y), null, Color.Black * 0.75f, 0.0f, Vector2.Zero, SpriteEffects.None, 0.5f);
-            spriteBatch.DrawString(Game1.SpriteFont, WrapText(Game1.SpriteFont, infoText, Game1.ScreenSize.X), new Vector2(16, 16), Color.White, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(Game1.Rect, boxPosition, null, Color.Black * 0.75f, 0.0f, Vector2.Zero, boxSize, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(Game1.SpriteFont, WrapText(Game1.SpriteFont, infoText, Game1.ScreenSize.X), new Vector2(16, 16), Color.White, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.99f);
         }
 
         public string WrapText(SpriteFont spriteFont, string text, float maxLineWidth)
@@ -125,6 +153,8 @@ namespace PP_OS
             {
 
                 isActive = false;
+                currentThumbnail.DisplayingInfo = false;
+                MainScreen.SignInvert = false;
                 screenManager.PopScreen();
             }
 

@@ -76,6 +76,7 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Objects\Arrow.cs" />
     <Compile Include="Objects\Button.cs" />
     <Compile Include="Tools\FileManager.cs" />
     <Compile Include="Game1.cs" />

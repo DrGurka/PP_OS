@@ -16,15 +16,18 @@ namespace PP_OS
         string info;
         string exePath;
         string name;
+        string platform;
 
         float layer;
         float alpha;
 
         int index;
+        int platformIndex;
                 
         bool processRunning;
         bool playing;
         bool paused;
+        bool displayingInfo;
 
         Song song;
         Button button;
@@ -68,7 +71,33 @@ namespace PP_OS
             }
         }
 
-        public Thumbnail(Texture2D texture, Vector2 position, string info, string exePath, float layer, int index, string name, Song song)
+        public string Platform
+        {
+            get
+            {
+                return platform;
+            }
+
+            set
+            {
+                platform = value;
+            }
+        }
+
+        public bool DisplayingInfo
+        {
+            get
+            {
+                return displayingInfo;
+            }
+
+            set
+            {
+                displayingInfo = value;
+            }
+        }
+
+        public Thumbnail(Texture2D texture, Vector2 position, string info, string exePath, float layer, int index, string name, Song song, string platform, int platformIndex)
         {
 
             this.texture = texture;
@@ -79,8 +108,11 @@ namespace PP_OS
             this.index = index;
             this.name = name;
             this.song = song;
+            this.platform = platform;
+            this.platformIndex = platformIndex;
 
-            button = new Button(Button.ButtonTexture.ButtonY, new Vector2(position.X + (texture.Width / 2) - 45, position.Y + (texture.Height / 2f) + 4), layer, "Info", true, 400, 2, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
+            button = new Button(Button.ButtonTexture.ButtonY, new Vector2(Game1.ScreenSize.X - 60, Game1.ScreenSize.Y - 66), layer, "Info", true, 400, 3, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
+            button.Alpha = alpha;
         }
 
         public void Update(GameTime gameTime)
@@ -89,20 +121,32 @@ namespace PP_OS
             if (!Game1.Paused)
             {
 
-                button.Position = new Vector2(position.X + (texture.Width / 2) - button.Width, position.Y + (texture.Height / 2f) + 4);
                 button.Update(gameTime);
+                button.Alpha = alpha;
 
+                position.Y += (((((platformIndex - Game1.CurrentPlatform) * 360) + ((Game1.ScreenSize.Y / 2f))) - (position.Y)) * 0.05f) * Game1.Delta;
                 position.X += (((((index - Game1.CurrentThumbnail) * 640) + ((Game1.ScreenSize.X / 2f))) - (position.X)) * 0.1f) * Game1.Delta;
 
                 if (position.X < (Game1.ScreenSize.X / 2))
                 {
 
-                    alpha = Math.Max(Math.Min(position.X / (Game1.ScreenSize.X / 2), 1), 0);
+                    alpha = Math.Max(Math.Min(position.X / (Game1.ScreenSize.X / 2), 1), 0f);
                 }
                 else
                 {
 
-                    alpha = Math.Max(Math.Min((Game1.ScreenSize.X - position.X) / (Game1.ScreenSize.X / 2), 1), 0);
+                    alpha = Math.Max(Math.Min((Game1.ScreenSize.X - position.X) / (Game1.ScreenSize.X / 2), 1), 0f);
+                }
+
+                if (position.Y < (Game1.ScreenSize.Y / 2))
+                {
+
+                    alpha *= Math.Max(Math.Min(((position.Y - ((Game1.ScreenSize.Y / 2) - (texture.Height))) / (texture.Height)), 1), 0);
+                }
+                else
+                {
+
+                    alpha *= Math.Max(Math.Min(((texture.Height * 2) - ((position.Y - ((Game1.ScreenSize.Y / 2) - (texture.Height))))) / (texture.Height), 1), 0);
                 }
             }
 
@@ -180,16 +224,18 @@ namespace PP_OS
             if (Game1.CurrentThumbnail == index)
             {
 
-                if(info != null)
+                if(info != null && !displayingInfo)
                 {
 
                     button.Draw(spriteBatch);
                 }
 
-                spriteBatch.DrawString(Game1.SpriteFont, name, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y / 5f), Color.Black * alpha, 0.0f, new Vector2(Game1.SpriteFont.MeasureString(name).X / 2, 0), 2, SpriteEffects.None, 0.1f);
+                spriteBatch.DrawString(Game1.SpriteFont, name, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y / 5f), Color.Black * alpha, 0.0f, Game1.SpriteFont.MeasureString(name)/ 2f, 2, SpriteEffects.None, 0.1f);
 
-                spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)(Game1.ScreenSize.Y / 4f), (int)Game1.SpriteFont.MeasureString(name).X * 2, 4), null, Color.Black * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)(Game1.ScreenSize.Y / 4f) - (int)(Game1.SpriteFont.MeasureString(name).Y * 2) - 22, (int)(Game1.SpriteFont.MeasureString(name).X * 2), 4), null, Color.Black * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)(Game1.ScreenSize.Y / 5f) + (int)(Game1.SpriteFont.MeasureString(name).Y + 6), (int)Game1.SpriteFont.MeasureString(name).X * 2, 4), null, Color.Black * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)(Game1.ScreenSize.Y / 5f) - (int)(Game1.SpriteFont.MeasureString(name).Y + 12), (int)(Game1.SpriteFont.MeasureString(name).X * 2), 4), null, Color.Black * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+
+                spriteBatch.DrawString(Game1.SpriteFont, platform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 5f) - (Game1.SpriteFont.MeasureString(name).Y * 2) - 12), Color.Black * alpha, 0.0f, Game1.SpriteFont.MeasureString(platform) / 2f, 2f, SpriteEffects.None, 0.1f);
 
                 if (!Game1.Paused && processRunning)
                 {

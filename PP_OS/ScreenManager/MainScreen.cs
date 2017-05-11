@@ -17,14 +17,23 @@ namespace PP_OS
         GraphicsDevice graphicsDevice;
 
         List<Thumbnail> thumbnails;
+        List<string> platforms;
         static Button button;
         FileManager fileManager;
         Thumbnail pausedThumbNail;
 
+        static bool signInvert;
+
+        int[] currentIndex;
+        int lastPlatform;
+
+        Arrow arrowUp;
+        Arrow arrowDown;
+
         Texture2D sign;
         SpriteFont font;
 
-        bool released;
+        bool releasedY, releasedX;
 
         public bool IsPaused { get; private set; }
 
@@ -41,6 +50,19 @@ namespace PP_OS
             }
         }
 
+        public static bool SignInvert
+        {
+            get
+            {
+                return signInvert;
+            }
+
+            set
+            {
+                signInvert = value;
+            }
+        }
+
         public MainScreen(IGameScreenManager screenManager, GraphicsDevice graphicsDevice)
         {
 
@@ -51,14 +73,37 @@ namespace PP_OS
         public void Initialize(ContentManager contentManager)
         {
 
-            thumbnails = new List<Thumbnail>();
-            fileManager = new FileManager();
+            platforms = new List<string>();
 
-            button = new Button(Button.ButtonTexture.ButtonA, new Vector2(32, Game1.ScreenSize.Y - 66), 1.0f, "Play", false, 400, 3, 0, 0);
-            Game1.ThumbnailCount = fileManager.GamePaths.GetLength(0) - 1;
+            var directories = Directory.GetDirectories(@"Games");
+
+            for (int i = 0; i < directories.Length; i++)
+            {
+
+                platforms.Add(directories[i].Replace(@"Games\", ""));
+            }
+
+            button = new Button(Button.ButtonTexture.ButtonA, new Vector2(32, Game1.ScreenSize.Y - 66), 1.0f, "Select", false, 400, 3, 0, 0);
+            button.Alpha = 1;
 
             sign = contentManager.Load<Texture2D>(@"sign");
             font = contentManager.Load<SpriteFont>(@"font2");
+
+            currentIndex = new int[platforms.Count];
+
+            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+
+            arrowDown = new Arrow(new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) - 210), true);
+            arrowUp = new Arrow(new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 210), false);
+        }
+
+        void LoadThumbnails(string path)
+        {
+
+            Game1.CurrentThumbnail = currentIndex[Game1.CurrentPlatform];
+
+            fileManager = new FileManager(path);
+            thumbnails = new List<Thumbnail>();
 
             FileStream fileStream;
 
@@ -75,7 +120,7 @@ namespace PP_OS
 
                     Song song;
 
-                    if(fileManager.GamePaths[i, 3] != null)
+                    if (fileManager.GamePaths[i, 3] != null)
                     {
 
                         song = Song.FromUri(songPath, new Uri(songPath, UriKind.Relative));
@@ -88,7 +133,7 @@ namespace PP_OS
 
                     string tmpString;
 
-                    if(fileManager.GamePaths[i, 2] != null)
+                    if (fileManager.GamePaths[i, 2] != null)
                     {
 
                         tmpString = File.ReadAllText(fileManager.GamePaths[i, 2]);
@@ -99,9 +144,11 @@ namespace PP_OS
                         tmpString = null;
                     }
 
-                    thumbnails.Add(new Thumbnail(texture, new Vector2((Game1.ScreenSize.X / 2f) + (640 * i), (Game1.ScreenSize.Y / 2f)), tmpString, fileManager.GamePaths[i, 0], 0.1f, i, fileManager.GamePaths[i, 4], song));
+                    thumbnails.Add(new Thumbnail(texture, new Vector2((Game1.ScreenSize.X / 2f) + ((i - Game1.CurrentThumbnail)), (Game1.ScreenSize.Y / 2f) + ((lastPlatform) * 270)), tmpString, fileManager.GamePaths[i, 0], 0.1f, i, fileManager.GamePaths[i, 4], song, fileManager.GamePaths[i, 5], Game1.CurrentPlatform));
                 }
             }
+
+            Game1.ThumbnailCount = fileManager.GamePaths.GetLength(0) - 1;
         }
 
         public void ChangeBetweenScreens()
@@ -134,6 +181,9 @@ namespace PP_OS
 
                 if(!Game1.Paused)
                 {
+
+                    arrowUp.Update(gameTime);
+                    arrowDown.Update(gameTime);
 
                     foreach (var thumbnail in thumbnails)
                     {
@@ -179,20 +229,85 @@ namespace PP_OS
                 }
             }
 
-            if(thumbnails.Count <= 0)
+            arrowUp.Draw(spriteBatch);
+            arrowDown.Draw(spriteBatch);
+
+            if (thumbnails.Count <= 0)
             {
 
                 spriteBatch.DrawString(Game1.SpriteFont, "No games in the Games folder!", Game1.ScreenSize / 2f, Color.Black, 0.0f, Game1.SpriteFont.MeasureString("No games in the game folder!") / 2f, 1f, SpriteEffects.None, 0.1f);
                 spriteBatch.DrawString(font, "Read Info.txt in the Games folder for more information", new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 16), Color.Black, 0.0f, new Vector2(font.MeasureString("Read Info.txt in the Games folder for more information").X / 2f, 0), 1f, SpriteEffects.None, 0.1f);
             }
 
-            spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, 0), null, Color.White, 0.0f, new Vector2(sign.Width / 2f, -1), 2f, SpriteEffects.None, 0.2f);
+            var upperPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
+
+            spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) - 160), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
+
+            var lowerPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
+
+            spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 160), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
+
+            spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y), null, (signInvert ? Color.White : Color.Black), 0.0f, new Vector2(sign.Width / 2f, sign.Height + 1), 2f, SpriteEffects.None, 1.0f);
         }
 
         public void HandleInput(GameTime gameTime)
         {
 
-            if (released)
+            if (releasedY)
+            {
+
+                if (Input.LeftThumbstick.Y > 0.2 || Input.DPadDownPressed)
+                {
+
+                    if (Game1.CurrentPlatform < platforms.Count - 1)
+                    {
+
+                        lastPlatform = 1;
+                        Game1.CurrentPlatform++;
+                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                        arrowUp.Activate();
+                    }
+                    else
+                    {
+
+                        lastPlatform = 1;
+                        Game1.CurrentPlatform = 0;
+                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                        arrowUp.Activate();
+                    }
+                    releasedY = false;
+                }
+                else if (Input.LeftThumbstick.Y < -0.2 || Input.DPadUpPressed)
+                {
+
+                    if (Game1.CurrentPlatform > 0)
+                    {
+
+                        lastPlatform = -1;
+                        Game1.CurrentPlatform--;
+                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                        arrowDown.Activate();
+                    }
+                    else
+                    {
+
+                        lastPlatform = -1;
+                        Game1.CurrentPlatform = platforms.Count - 1;
+                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                        arrowDown.Activate();
+                    }
+                    releasedY = false;
+                }
+
+                
+            }
+            else if (Input.LeftThumbstick.Y > -0.2 && Input.LeftThumbstick.Y < 0.2)
+            {
+
+                releasedY = true;
+            }
+
+            if (releasedX)
             {
 
                 if (Input.LeftThumbstick.X > 0.2 || Input.DPadRightPressed)
@@ -202,13 +317,15 @@ namespace PP_OS
                     {
 
                         Game1.CurrentThumbnail++;
+                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                     }
                     else
                     {
 
                         Game1.CurrentThumbnail = 0;
+                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                     }
-                    released = false;
+                    releasedX = false;
                 }
                 else if (Input.LeftThumbstick.X < -0.2 || Input.DPadLeftPressed)
                 {
@@ -217,22 +334,24 @@ namespace PP_OS
                     {
 
                         Game1.CurrentThumbnail--;
+                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                     }
                     else
                     {
 
                         Game1.CurrentThumbnail = Game1.ThumbnailCount;
+                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                     }
-                    released = false;
+                    releasedX = false;
                 }
             }
             else if (Input.LeftThumbstick.X > -0.2 && Input.LeftThumbstick.X < 0.2)
             {
 
-                released = true;
+                releasedX = true;
             }
 
-            if(Input.Button3Pressed)
+            if (Input.Button3Pressed)
             {
 
                 foreach(var thumbnail in thumbnails)
@@ -242,6 +361,7 @@ namespace PP_OS
                     {
 
                         thumbnail.OpenThumbnail(screenManager);
+                        thumbnail.DisplayingInfo = true;
                     }
                 }
             }

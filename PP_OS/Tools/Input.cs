@@ -26,6 +26,14 @@ namespace PP_OS
         static bool dPadRightIsPressed;
         static bool dPadRightReleased;
 
+        static bool dPadUpPressed;
+        static bool dPadUpIsPressed;
+        static bool dPadUpReleased;
+
+        static bool dPadDownPressed;
+        static bool dPadDownIsPressed;
+        static bool dPadDownReleased;
+
         static Vector2 leftThumbstick;
 
         public static bool Button1Pressed
@@ -236,6 +244,84 @@ namespace PP_OS
             }
         }
 
+        public static bool DPadUpPressed
+        {
+            get
+            {
+                return dPadUpPressed;
+            }
+
+            set
+            {
+                dPadUpPressed = value;
+            }
+        }
+
+        public static bool DPadUpIsPressed
+        {
+            get
+            {
+                return dPadUpIsPressed;
+            }
+
+            set
+            {
+                dPadUpIsPressed = value;
+            }
+        }
+
+        public static bool DPadUpReleased
+        {
+            get
+            {
+                return dPadUpReleased;
+            }
+
+            set
+            {
+                dPadUpReleased = value;
+            }
+        }
+
+        public static bool DPadDownPressed
+        {
+            get
+            {
+                return dPadDownPressed;
+            }
+
+            set
+            {
+                dPadDownPressed = value;
+            }
+        }
+
+        public static bool DPadDownIsPressed
+        {
+            get
+            {
+                return dPadDownIsPressed;
+            }
+
+            set
+            {
+                dPadDownIsPressed = value;
+            }
+        }
+
+        public static bool DPadDownReleased
+        {
+            get
+            {
+                return dPadDownReleased;
+            }
+
+            set
+            {
+                dPadDownReleased = value;
+            }
+        }
+
         public Input()
         {
 
@@ -319,6 +405,34 @@ namespace PP_OS
 
             dPadRightIsPressed = gp.IsButtonDown(Buttons.DPadRight) || ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D);
             dPadRightReleased = gp.IsButtonUp(Buttons.DPadRight) || ks.IsKeyUp(Keys.Right) || ks.IsKeyUp(Keys.D);
+
+            if (!dPadUpIsPressed)
+            {
+
+                dPadUpPressed = gp.IsButtonDown(Buttons.DPadUp) || ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W);
+            }
+            else
+            {
+
+                dPadUpPressed = false;
+            }
+
+            dPadUpIsPressed = gp.IsButtonDown(Buttons.DPadUp) || ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W);
+            dPadUpReleased = gp.IsButtonUp(Buttons.DPadUp) || ks.IsKeyUp(Keys.Up) || ks.IsKeyUp(Keys.W);
+
+            if (!dPadDownIsPressed)
+            {
+
+                dPadDownPressed = gp.IsButtonDown(Buttons.DPadDown) || ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S);
+            }
+            else
+            {
+
+                dPadDownPressed = false;
+            }
+
+            dPadDownIsPressed = gp.IsButtonDown(Buttons.DPadDown) || ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S);
+            dPadDownReleased = gp.IsButtonUp(Buttons.DPadDown) || ks.IsKeyUp(Keys.Down) || ks.IsKeyUp(Keys.S);
         }
     }
 }

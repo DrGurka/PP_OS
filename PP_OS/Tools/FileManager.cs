@@ -7,10 +7,10 @@ namespace PP_OS
 
         string[,] gamePaths;
 
-        public FileManager()
+        public FileManager(string path)
         {
 
-            gamePaths = GetGames();
+            gamePaths = GetGamesInDirectory(path);
         }
 
         public string[,] GamePaths
@@ -26,19 +26,20 @@ namespace PP_OS
             }
         }
 
-        string[,] GetGames()
+        string[,] GetGamesInDirectory(string path)
         {
 
-            
-            var directories = Directory.GetDirectories(@"Games");
-            string[,] fileNames = new string[directories.Length, 5];
+            var currentDirectory = @"Games\" + path;
+            var directories = Directory.GetDirectories(currentDirectory);
+            string[,] fileNames = new string[directories.Length, 6];
 
             for (int i = 0; i < directories.Length; i++)
             {
 
-                var currentName = directories[i].Replace(@"Games\", "");
+                var currentName = directories[i].Replace(currentDirectory + @"\", "");
 
                 fileNames[i, 4] = currentName;
+                fileNames[i, 5] = path;
 
                 DirectoryInfo files = new DirectoryInfo(directories[i]);
                 FileInfo[] filesInDir = files.GetFiles("*" + currentName + "*.*");

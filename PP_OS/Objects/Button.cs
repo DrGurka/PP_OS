@@ -13,6 +13,8 @@ namespace PP_OS
         int millisecondsPerFrame;
         int timeSinceLastFrame;
 
+        float alpha;
+
         float layer;
         Vector2 position;
         string text;
@@ -41,19 +43,6 @@ namespace PP_OS
             }
         }
 
-        public Vector2 Position
-        {
-            get
-            {
-                return position;
-            }
-
-            set
-            {
-                position = value;
-            }
-        }
-
         public int TimeSinceLastFrame
         {
             get
@@ -77,6 +66,19 @@ namespace PP_OS
             set
             {
                 currentFrame = value;
+            }
+        }
+
+        public float Alpha
+        {
+            get
+            {
+                return alpha;
+            }
+
+            set
+            {
+                alpha = value;
             }
         }
 
@@ -130,8 +132,8 @@ namespace PP_OS
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(Game1.Buttons, position, sourceRectangle, Color.White, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
-            spriteBatch.DrawString(Game1.SpriteFont, text, position + new Vector2((20 * size) * (leftSide ? 0 : 1) - ((3 * size) * (leftSide ? 1 : 0)), 10 * size), (ThumbnailScreen.IsActive && buttonTexture != ButtonTexture.ButtonY ? Color.White : Color.Black), 0.0f, new Vector2(Game1.SpriteFont.MeasureString(text).X * (leftSide ? 1 : 0), Game1.SpriteFont.MeasureString(text).Y / 2f), 1f, SpriteEffects.None, layer);
+            spriteBatch.Draw(Game1.Buttons, position, sourceRectangle, Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
+            spriteBatch.DrawString(Game1.SpriteFont, text, position + new Vector2((20 * size) * (leftSide ? 0 : 1) - ((3 * size) * (leftSide ? 1 : 0)), 10 * size), (ThumbnailScreen.IsActive && buttonTexture != ButtonTexture.ButtonY ? Color.White * alpha : Color.Black * alpha), 0.0f, new Vector2(Game1.SpriteFont.MeasureString(text).X * (leftSide ? 1 : 0), Game1.SpriteFont.MeasureString(text).Y / 2f), 1f, SpriteEffects.None, layer);
         }
     }
 }
