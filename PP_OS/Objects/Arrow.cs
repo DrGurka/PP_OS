@@ -13,6 +13,19 @@ namespace PP_OS
 
         bool up;
 
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+
+            set
+            {
+                position = value;
+            }
+        }
+
         public Arrow(Vector2 position, bool up)
         {
 
@@ -33,6 +46,12 @@ namespace PP_OS
 
 
             offsetY += (-offsetY * 0.1f) * Game1.Delta;
+
+            if(MainScreen.CurrentThumbnail != null)
+            {
+
+                position.Y = (MainScreen.CurrentThumbnail.Position.Y) - ((up ? 1 : -1) * ((MainScreen.CurrentThumbnail.Height / 2f) + 42)) - ((up ? 1 : 0) * 10);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

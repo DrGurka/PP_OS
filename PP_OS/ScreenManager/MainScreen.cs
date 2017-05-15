@@ -21,6 +21,7 @@ namespace PP_OS
         static Button button;
         FileManager fileManager;
         Thumbnail pausedThumbNail;
+        static Thumbnail currentThumbnail;
 
         static bool signInvert;
 
@@ -66,6 +67,19 @@ namespace PP_OS
             set
             {
                 signInvert = value;
+            }
+        }
+
+        internal static Thumbnail CurrentThumbnail
+        {
+            get
+            {
+                return currentThumbnail;
+            }
+
+            set
+            {
+                currentThumbnail = value;
             }
         }
 
@@ -188,13 +202,15 @@ namespace PP_OS
                 if(!Game1.Paused)
                 {
 
-                    arrowUp.Update(gameTime);
-                    arrowDown.Update(gameTime);
-
                     foreach (var thumbnail in thumbnails)
                     {
 
                         thumbnail.Update(gameTime);
+                        if(thumbnail.Index == Game1.CurrentThumbnail)
+                        {
+
+                            currentThumbnail = thumbnail;
+                        }
 
                         if (thumbnail.ProcessRunning)
                         {
@@ -204,6 +220,8 @@ namespace PP_OS
                         }
                     }
 
+                    arrowUp.Update(gameTime);
+                    arrowDown.Update(gameTime);
                     button.Update(gameTime);
                 }
             }
@@ -248,11 +266,11 @@ namespace PP_OS
                 arrowUp.Draw(spriteBatch);
                 arrowDown.Draw(spriteBatch);
 
-                var upperPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
-                spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) - 160), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
+                var upperPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
+                spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowUp.Position.Y - 26), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
 
-                var lowerPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
-                spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 160), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
+                var lowerPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
+                spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowDown.Position.Y + 36), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
             }
             
             spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y), null, (signInvert ? Color.White : Color.Black), 0.0f, new Vector2(sign.Width / 2f, sign.Height + 1), 2f, SpriteEffects.None, 1.0f);
