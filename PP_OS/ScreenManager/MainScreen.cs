@@ -257,7 +257,7 @@ namespace PP_OS
             {
 
                 spriteBatch.DrawString(Game1.SpriteFont, "No games in the Games folder!", Game1.ScreenSize / 2f, Color.Black, 0.0f, Game1.SpriteFont.MeasureString("No games in the game folder!") / 2f, 1f, SpriteEffects.None, 0.1f);
-                spriteBatch.DrawString(font, "Read Info.txt in the Games folder for more information", new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 16), Color.Black, 0.0f, new Vector2(font.MeasureString("Read Info.txt in the Games folder for more information").X / 2f, 0), 1f, SpriteEffects.None, 0.1f);
+                spriteBatch.DrawString(font, "Read README.txt in the Games folder for more information", new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 16), Color.Black, 0.0f, new Vector2(font.MeasureString("Read Info.txt in the Games folder for more information").X / 2f, 0), 1f, SpriteEffects.None, 0.1f);
             }
 
             if (platforms.Count > 1)
