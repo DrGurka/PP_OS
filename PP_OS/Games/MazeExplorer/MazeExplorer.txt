@@ -1,2 +1,0 @@
-Explore the endless possiblities of recursive maze generation.
-So how to its solves it step by step and be famished by its beatifull design.
