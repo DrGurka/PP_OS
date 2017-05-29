@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Collections.Generic;
 
 namespace PP_OS
 {
@@ -10,6 +11,7 @@ namespace PP_OS
         public FileManager(string path)
         {
 
+            MoveDirectory(Game1.Settings[0], Game1.Settings[1]);
             gamePaths = GetGamesInDirectory(path);
         }
 
@@ -23,6 +25,40 @@ namespace PP_OS
             set
             {
                 gamePaths = value;
+            }
+        }
+
+        public static void MoveDirectory(string source, string target)
+        {
+            var stack = new Stack<Folders>();
+            stack.Push(new Folders(source, target));
+
+            while (stack.Count > 0)
+            {
+                var folders = stack.Pop();
+                Directory.CreateDirectory(folders.Target);
+                if(Directory.Exists(folders.Source))
+                {
+
+                    foreach (var file in Directory.GetFiles(folders.Source, "*.*"))
+                    {
+
+                        string targetFile = Path.Combine(folders.Target, Path.GetFileName(file));
+
+                        if (File.Exists(targetFile))
+                        {
+
+                            File.Delete(targetFile);
+                        }
+                        File.Copy(file, targetFile);
+                    }
+
+                    foreach (var folder in Directory.GetDirectories(folders.Source))
+                    {
+
+                        stack.Push(new Folders(folder, Path.Combine(folders.Target, Path.GetFileName(folder))));
+                    }
+                }
             }
         }
 
@@ -79,6 +115,18 @@ namespace PP_OS
             }
 
             return fileNames;
+        }
+    }
+
+    public class Folders
+    {
+        public string Source { get; private set; }
+        public string Target { get; private set; }
+
+        public Folders(string source, string target)
+        {
+            Source = source;
+            Target = target;
         }
     }
 }
