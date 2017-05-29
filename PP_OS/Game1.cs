@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Configuration;
 
 namespace PP_OS
 {
@@ -13,7 +14,10 @@ namespace PP_OS
         ParticleSystem particleSystem;
         Input input;
 
+        static string[] settings;
+
         static bool paused;
+        bool rested;
 
         static Texture2D buttons;
 
@@ -150,10 +154,28 @@ namespace PP_OS
             }
         }
 
+        public static string[] Settings
+        {
+            get
+            {
+                return settings;
+            }
+
+            set
+            {
+                settings = value;
+            }
+        }
+
         public Game1()
         {
 
-            screenSize = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+            int width = (int.TryParse(ConfigurationManager.AppSettings["ScreenWidth"], out width) ? width : GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width);
+            int height = (int.TryParse(ConfigurationManager.AppSettings["ScreenHeight"], out height) ? height : GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+
+            screenSize = new Vector2(width, height);
+
+            LoadConfig();
 
             graphics = new GraphicsDeviceManager(this)
             {
@@ -167,6 +189,42 @@ namespace PP_OS
 
             Window.IsBorderless = true;
             Content.RootDirectory = "Content";
+        }
+
+        void LoadConfig()
+        {
+
+            settings = new string[3];
+
+            settings[0] = ConfigurationManager.AppSettings["PortablePath"];
+            settings[1] = ConfigurationManager.AppSettings["GamePath"];
+            settings[2] = ConfigurationManager.AppSettings["Theme"];
+        }
+
+        void Reset()
+        {
+
+            LoadConfig();
+
+            int width = (int.TryParse(ConfigurationManager.AppSettings["ScreenWidth"], out width) ? width : GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width);
+            int height = (int.TryParse(ConfigurationManager.AppSettings["ScreenHeight"], out height) ? height : GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+
+            screenSize = new Vector2(width, height);
+
+            graphics.PreferredBackBufferWidth = (int)screenSize.X;
+            graphics.PreferredBackBufferHeight = (int)screenSize.Y;
+            graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.ApplyChanges();
+
+            particleSystem = new ParticleSystem();
+
+            currentPlatform = 0;
+            currentThumbnail = 0;
+
+            screenManager = new GameScreenManager(spriteBatch, Content);
+            screenManager.OnGameExit += Exit;
+
+            screenManager.ChangeScreen(new MainScreen(screenManager, GraphicsDevice));
         }
 
         protected override void Initialize()
@@ -225,6 +283,19 @@ namespace PP_OS
                 particleSystem.Update(gameTime);
 
                 base.Update(gameTime);
+            }
+
+            if(Input.Button3IsPressed && Input.Button4IsPressed && !rested)
+            {
+
+                Reset();
+                rested = true;
+            }
+
+            if(Input.Button3Released || Input.Button4Released)
+            {
+
+                rested = false;
             }
 
             screenManager.Update(gameTime);
