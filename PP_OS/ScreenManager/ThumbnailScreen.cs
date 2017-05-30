@@ -154,7 +154,23 @@ namespace PP_OS
 
                 isActive = false;
                 currentThumbnail.DisplayingInfo = false;
-                MainScreen.SignInvert = false;
+
+                if(Game1.Settings[2] == "White")
+                {
+
+                    MainScreen.SignInvert = false;
+                }
+                else if(Game1.Settings[2] == "Dark")
+                {
+
+                    MainScreen.SignInvert = true;
+                }
+                else
+                {
+
+                    MainScreen.SignInvert = false;
+                }
+                
                 screenManager.PopScreen();
             }
 

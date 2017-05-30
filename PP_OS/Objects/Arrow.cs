@@ -57,9 +57,30 @@ namespace PP_OS
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(Game1.Rect, new Vector2(position.X - 4, position.Y + offsetY), null, Color.Black, 0.0f, Vector2.Zero, new Vector2(8, 10), SpriteEffects.None, 0.9f);
+            if(Game1.Settings[2] == "White")
+            {
 
-            spriteBatch.Draw(Game1.Rect, new Vector2(position.X - 2, position.Y - (offsetY * 2f) - (up ? 10 : -16)), null, Color.Black, 0.0f, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 0.9f);
+                spriteBatch.Draw(Game1.Rect, new Vector2(position.X - 4, position.Y + offsetY), null, Color.Black, 0.0f, Vector2.Zero, new Vector2(8, 10), SpriteEffects.None, 0.9f);
+
+                spriteBatch.Draw(Game1.Rect, new Vector2(position.X - 2, position.Y - (offsetY * 2f) - (up ? 10 : -16)), null, Color.Black, 0.0f, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 0.9f);
+
+            }
+            else if(Game1.Settings[2] == "Dark")
+            {
+
+                spriteBatch.Draw(Game1.Rect, new Vector2(position.X - 4, position.Y + offsetY), null, Color.White, 0.0f, Vector2.Zero, new Vector2(8, 10), SpriteEffects.None, 0.9f);
+
+                spriteBatch.Draw(Game1.Rect, new Vector2(position.X - 2, position.Y - (offsetY * 2f) - (up ? 10 : -16)), null, Color.White, 0.0f, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 0.9f);
+
+            }
+            else
+            {
+
+                spriteBatch.Draw(Game1.Rect, new Vector2(position.X - 4, position.Y + offsetY), null, Color.Black, 0.0f, Vector2.Zero, new Vector2(8, 10), SpriteEffects.None, 0.9f);
+
+                spriteBatch.Draw(Game1.Rect, new Vector2(position.X - 2, position.Y - (offsetY * 2f) - (up ? 10 : -16)), null, Color.Black, 0.0f, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 0.9f);
+
+            }
         }
     }
 }

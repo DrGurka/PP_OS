@@ -279,7 +279,22 @@ namespace PP_OS
                 input.HandleInput();
                 screenManager.HandleInput(gameTime);
 
-                particleSystem.Emitter(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), 0, 360, 0.4f, 0.1f, 1, (float)gameTime.TotalGameTime.TotalMilliseconds + 2500, 2500, Color.FromNonPremultiplied(128, 255, 255, 255), new Vector4(50, -128, 0, 0), (float)gameTime.TotalGameTime.TotalMilliseconds, 4, 4);
+                Color color = Color.White;
+                Vector4 colorAttractor = new Vector4(0, 0, 0, 0);
+                if(settings[2] == "Dark")
+                {
+                
+                    color = new Color(255, 255, 255, 255);
+                    colorAttractor = new Vector4(0, 0, 0, 128);
+                }
+                else if(settings[2] == "White")
+                {
+
+                    color = new Color(128, 255, 255, 255);
+                    colorAttractor = new Vector4(50, -128, 0, 0);
+                }
+
+                particleSystem.Emitter(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), 0, 360, 0.4f, 0.1f, 1, (float)gameTime.TotalGameTime.TotalMilliseconds + 2500, 2500, color, colorAttractor, (float)gameTime.TotalGameTime.TotalMilliseconds, 4, 4);
                 particleSystem.Update(gameTime);
 
                 base.Update(gameTime);
@@ -307,7 +322,22 @@ namespace PP_OS
             if (!paused)
             {
 
-                GraphicsDevice.Clear(Color.White);
+                if(settings[2] == "White")
+                {
+
+                    GraphicsDevice.Clear(Color.White);
+                }
+                else if(settings[2] == "Dark")
+                {
+
+                    GraphicsDevice.Clear(Color.Black);
+                }
+                else
+                {
+
+                    GraphicsDevice.Clear(Color.White);
+                }
+                
                 spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
                 particleSystem.Draw(spriteBatch);
                 screenManager.Draw(spriteBatch);
