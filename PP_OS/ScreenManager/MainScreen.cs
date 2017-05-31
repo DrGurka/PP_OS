@@ -88,22 +88,6 @@ namespace PP_OS
 
             this.screenManager = screenManager;
             this.graphicsDevice = graphicsDevice;
-
-            if(Game1.Settings[2] == "White")
-            {
-
-                signInvert = false;
-            }
-            else if(Game1.Settings[2] == "Dark")
-            {
-
-                signInvert = true;
-            }
-            else
-            {
-
-                signInvert = false;
-            }
         }
 
         public void Initialize(ContentManager contentManager)
@@ -181,6 +165,8 @@ namespace PP_OS
                     }
 
                     thumbnails.Add(new Thumbnail(texture, new Vector2((Game1.ScreenSize.X / 2f) + ((i - Game1.CurrentThumbnail)), (Game1.ScreenSize.Y / 2f) + ((lastPlatform) * 135)), tmpString, fileManager.GamePaths[i, 0], 0.1f, i, fileManager.GamePaths[i, 4], song, fileManager.GamePaths[i, 5], Game1.CurrentPlatform));
+
+                    fileStream.Close();
                 }
             }
 
@@ -269,30 +255,43 @@ namespace PP_OS
                 }
             }
 
+            Color colorText;
+            Color colorTextInverted;
+            switch (Game1.Settings[2])
+            {
+
+                case "White":
+
+                    colorText = Color.Black;
+                    colorTextInverted = Color.White;
+                    break;
+                case "Dark":
+
+                    colorText = Color.White;
+                    colorTextInverted = Color.White;
+                    break;
+                case "Velvet":
+
+                    colorText = Color.White;
+                    colorTextInverted = Color.White;
+                    break;
+                case "Winter":
+
+                    colorText = Color.White;
+                    colorTextInverted = Color.White;
+                    break;
+                default:
+
+                    colorText = Color.Black;
+                    colorTextInverted = Color.White;
+                    break;
+            }
+
             if (thumbnails.Count <= 0)
             {
 
-                if (Game1.Settings[2] == "White")
-                {
-
-                    spriteBatch.DrawString(Game1.SpriteFont, "No games in the Games folder!", Game1.ScreenSize / 2f, Color.Black, 0.0f, Game1.SpriteFont.MeasureString("No games in the game folder!") / 2f, 1f, SpriteEffects.None, 0.1f);
-                    spriteBatch.DrawString(font, "Read README.txt in the Games folder for more information", new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 16), Color.Black, 0.0f, new Vector2(font.MeasureString("Read Info.txt in the Games folder for more information").X / 2f, 0), 1f, SpriteEffects.None, 0.1f);
-
-                }
-                else if (Game1.Settings[2] == "Dark")
-                {
-
-                    spriteBatch.DrawString(Game1.SpriteFont, "No games in the Games folder!", Game1.ScreenSize / 2f, Color.White, 0.0f, Game1.SpriteFont.MeasureString("No games in the game folder!") / 2f, 1f, SpriteEffects.None, 0.1f);
-                    spriteBatch.DrawString(font, "Read README.txt in the Games folder for more information", new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 16), Color.White, 0.0f, new Vector2(font.MeasureString("Read Info.txt in the Games folder for more information").X / 2f, 0), 1f, SpriteEffects.None, 0.1f);
-
-                }
-                else
-                {
-
-                    spriteBatch.DrawString(Game1.SpriteFont, "No games in the Games folder!", Game1.ScreenSize / 2f, Color.Black, 0.0f, Game1.SpriteFont.MeasureString("No games in the game folder!") / 2f, 1f, SpriteEffects.None, 0.1f);
-                    spriteBatch.DrawString(font, "Read README.txt in the Games folder for more information", new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 16), Color.Black, 0.0f, new Vector2(font.MeasureString("Read Info.txt in the Games folder for more information").X / 2f, 0), 1f, SpriteEffects.None, 0.1f);
-
-                }
+                    spriteBatch.DrawString(Game1.SpriteFont, "No games in the Games folder!", Game1.ScreenSize / 2f, colorText, 0.0f, Game1.SpriteFont.MeasureString("No games in the game folder!") / 2f, 1f, SpriteEffects.None, 0.1f);
+                    spriteBatch.DrawString(font, "Read README.txt in the Games folder for more information", new Vector2(Game1.ScreenSize.X / 2f, (Game1.ScreenSize.Y / 2f) + 16), colorText, 0.0f, new Vector2(font.MeasureString("Read README.txt in the Games folder for more information").X / 2f, 0), 1f, SpriteEffects.None, 0.1f);
             }
 
             if (platforms.Count > 1)
@@ -301,39 +300,14 @@ namespace PP_OS
                 arrowUp.Draw(spriteBatch);
                 arrowDown.Draw(spriteBatch);
 
+                var upperPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
+                spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowUp.Position.Y - 26), colorText, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.3f);
 
-                if (Game1.Settings[2] == "White")
-                {
-                    var upperPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
-                    spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowUp.Position.Y - 26), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
-
-                    var lowerPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
-                    spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowDown.Position.Y + 36), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
-
-                }
-                else if (Game1.Settings[2] == "Dark")
-                {
-
-                    var upperPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
-                    spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowUp.Position.Y - 26), Color.White, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
-
-                    var lowerPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
-                    spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowDown.Position.Y + 36), Color.White, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
-
-                }
-                else
-                {
-
-                    var upperPlatform = Game1.CurrentPlatform < platforms.Count - 1 ? platforms[Game1.CurrentPlatform + 1] : platforms[0];
-                    spriteBatch.DrawString(Game1.SpriteFont, upperPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowUp.Position.Y - 26), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(upperPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
-
-                    var lowerPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
-                    spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowDown.Position.Y + 36), Color.Black, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.5f);
-
-                }
+                var lowerPlatform = Game1.CurrentPlatform > 0 ? platforms[Game1.CurrentPlatform - 1] : platforms[platforms.Count - 1];
+                spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowDown.Position.Y + 36), colorText, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.3f);
             }
             
-            spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y), null, (signInvert ? Color.White : Color.Black), 0.0f, new Vector2(sign.Width / 2f, sign.Height + 1), 2f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y), null, (signInvert ? colorTextInverted : colorText), 0.0f, new Vector2(sign.Width / 2f, sign.Height + 1), 2f, SpriteEffects.None, 1.0f);
         }
 
         public void HandleInput(GameTime gameTime)

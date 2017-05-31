@@ -133,21 +133,40 @@ namespace PP_OS
         {
 
             spriteBatch.Draw(Game1.Buttons, position, sourceRectangle, Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
-            if(Game1.Settings[2] == "White")
+
+            Color colorNormal;
+            Color colorInverted;
+            switch (Game1.Settings[2])
             {
 
-                spriteBatch.DrawString(Game1.SpriteFont, text, position + new Vector2((20 * size) * (leftSide ? 0 : 1) - ((3 * size) * (leftSide ? 1 : 0)), 10 * size), (ThumbnailScreen.IsActive && buttonTexture != ButtonTexture.ButtonY ? Color.White * alpha : Color.Black * alpha), 0.0f, new Vector2(Game1.SpriteFont.MeasureString(text).X * (leftSide ? 1 : 0), Game1.SpriteFont.MeasureString(text).Y / 2f), 1f, SpriteEffects.None, layer);
-            }
-            else if(Game1.Settings[2] == "Dark")
-            {
+                case "White":
 
-                spriteBatch.DrawString(Game1.SpriteFont, text, position + new Vector2((20 * size) * (leftSide ? 0 : 1) - ((3 * size) * (leftSide ? 1 : 0)), 10 * size), (ThumbnailScreen.IsActive && buttonTexture != ButtonTexture.ButtonY ? Color.White * alpha : Color.White * alpha), 0.0f, new Vector2(Game1.SpriteFont.MeasureString(text).X * (leftSide ? 1 : 0), Game1.SpriteFont.MeasureString(text).Y / 2f), 1f, SpriteEffects.None, layer);
-            }
-            else
-            {
+                    colorNormal = Color.White;
+                    colorInverted = Color.Black;
+                    break;
+                case "Dark":
 
-                spriteBatch.DrawString(Game1.SpriteFont, text, position + new Vector2((20 * size) * (leftSide ? 0 : 1) - ((3 * size) * (leftSide ? 1 : 0)), 10 * size), (ThumbnailScreen.IsActive && buttonTexture != ButtonTexture.ButtonY ? Color.White * alpha : Color.Black * alpha), 0.0f, new Vector2(Game1.SpriteFont.MeasureString(text).X * (leftSide ? 1 : 0), Game1.SpriteFont.MeasureString(text).Y / 2f), 1f, SpriteEffects.None, layer);
+                    colorNormal = Color.White;
+                    colorInverted = Color.White;
+                    break;
+                case "Velvet":
+
+                    colorNormal = Color.White;
+                    colorInverted = Color.White;
+                    break;
+                case "Winter":
+
+                    colorNormal = Color.White;
+                    colorInverted = Color.White;
+                    break;
+                default:
+
+                    colorNormal = Color.White;
+                    colorInverted = Color.Black;
+                    break;
             }
+
+            spriteBatch.DrawString(Game1.SpriteFont, text, position + new Vector2((20 * size) * (leftSide ? 0 : 1) - ((3 * size) * (leftSide ? 1 : 0)), 10 * size), (ThumbnailScreen.IsActive && buttonTexture != ButtonTexture.ButtonY ? colorInverted * alpha : colorNormal * alpha), 0.0f, new Vector2(Game1.SpriteFont.MeasureString(text).X * (leftSide ? 1 : 0), Game1.SpriteFont.MeasureString(text).Y / 2f), 1f, SpriteEffects.None, layer);
         }
     }
 }

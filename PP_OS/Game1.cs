@@ -194,6 +194,7 @@ namespace PP_OS
         void LoadConfig()
         {
 
+            ConfigurationManager.RefreshSection("appSettings");
             settings = new string[3];
 
             settings[0] = ConfigurationManager.AppSettings["PortablePath"];
@@ -269,6 +270,8 @@ namespace PP_OS
         protected override void Update(GameTime gameTime)
         {
 
+            input.HandleInput();
+
             if (!paused)
             {
 
@@ -276,22 +279,39 @@ namespace PP_OS
 
                 screenManager.ChangeBetweenScreens();
 
-                input.HandleInput();
                 screenManager.HandleInput(gameTime);
 
                 Color color = Color.White;
                 Vector4 colorAttractor = new Vector4(0, 0, 0, 0);
-                if(settings[2] == "Dark")
-                {
-                
-                    color = new Color(255, 255, 255, 255);
-                    colorAttractor = new Vector4(0, 0, 0, 128);
-                }
-                else if(settings[2] == "White")
+
+                switch(settings[2])
                 {
 
-                    color = new Color(128, 255, 255, 255);
-                    colorAttractor = new Vector4(50, -128, 0, 0);
+                    case "White":
+
+                        color = new Color(128, 255, 255, 255);
+                        colorAttractor = new Vector4(50, -128, 0, 0);
+                        break;
+                    case "Dark":
+
+                        color = new Color(255, 255, 255, 255);
+                        colorAttractor = new Vector4(0, 0, 0, 128);
+                        break;
+                    case "Velvet":
+
+                        color = new Color(239, 22, 58, 255);
+                        colorAttractor = new Vector4(-159, 17, 177, 128);
+                        break;
+                    case "Winter":
+
+                        color = new Color(255, 255, 255, 255);
+                        colorAttractor = new Vector4(0, 0, 0, 128);
+                        break;
+                    default:
+
+                        color = new Color(128, 255, 255, 255);
+                        colorAttractor = new Vector4(50, -128, 0, 0);
+                        break;
                 }
 
                 particleSystem.Emitter(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), 0, 360, 0.4f, 0.1f, 1, (float)gameTime.TotalGameTime.TotalMilliseconds + 2500, 2500, color, colorAttractor, (float)gameTime.TotalGameTime.TotalMilliseconds, 4, 4);
@@ -300,7 +320,7 @@ namespace PP_OS
                 base.Update(gameTime);
             }
 
-            if(Input.Button3IsPressed && Input.Button4IsPressed && !rested)
+            if((Input.Button3IsPressed && Input.Button4IsPressed) && !rested)
             {
 
                 Reset();
@@ -322,20 +342,29 @@ namespace PP_OS
             if (!paused)
             {
 
-                if(settings[2] == "White")
+                switch(settings[2])
                 {
 
-                    GraphicsDevice.Clear(Color.White);
-                }
-                else if(settings[2] == "Dark")
-                {
+                    case "White":
 
-                    GraphicsDevice.Clear(Color.Black);
-                }
-                else
-                {
+                        GraphicsDevice.Clear(Color.White);
+                        break;
+                    case "Dark":
 
-                    GraphicsDevice.Clear(Color.White);
+                        GraphicsDevice.Clear(Color.Black);
+                        break;
+                    case "Velvet":
+
+                        GraphicsDevice.Clear(new Color(9, 9, 11, 255));
+                        break;
+                    case "Winter":
+
+                        GraphicsDevice.Clear(new Color(19, 19, 25, 255));
+                        break;
+                    default:
+
+                        GraphicsDevice.Clear(Color.White);
+                        break;
                 }
                 
                 spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);

@@ -117,7 +117,7 @@ namespace PP_OS
 
             button.Draw(spriteBatch);
             spriteBatch.Draw(Game1.Rect, boxPosition, null, Color.Black * 0.75f, 0.0f, Vector2.Zero, boxSize, SpriteEffects.None, 0.5f);
-            spriteBatch.DrawString(Game1.SpriteFont, WrapText(Game1.SpriteFont, infoText, Game1.ScreenSize.X), new Vector2(16, 16), Color.White, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.99f);
+            spriteBatch.DrawString(Game1.SpriteFont, WrapText(Game1.SpriteFont, infoText, Game1.ScreenSize.X), new Vector2(16, 16), Color.White, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
         }
 
         public string WrapText(SpriteFont spriteFont, string text, float maxLineWidth)
@@ -154,23 +154,7 @@ namespace PP_OS
 
                 isActive = false;
                 currentThumbnail.DisplayingInfo = false;
-
-                if(Game1.Settings[2] == "White")
-                {
-
-                    MainScreen.SignInvert = false;
-                }
-                else if(Game1.Settings[2] == "Dark")
-                {
-
-                    MainScreen.SignInvert = true;
-                }
-                else
-                {
-
-                    MainScreen.SignInvert = false;
-                }
-                
+                MainScreen.SignInvert = false;
                 screenManager.PopScreen();
             }
 
