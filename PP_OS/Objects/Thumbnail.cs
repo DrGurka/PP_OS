@@ -242,35 +242,53 @@ namespace PP_OS
                 spriteBatch.DrawString(Game1.SpriteFont, "Running!", new Vector2(position.X, position.Y), Color.White, 0.0f, Game1.SpriteFont.MeasureString("Running!") / 2f, 1, SpriteEffects.None, 1.0f);
             }
 
-            Color colorTextGame;
-            Color colorTextPlatform;
-            Color colorLines;
-            switch (Game1.Settings[2])
+            Color colorTextGame = Color.Black;
+            Color colorTextPlatform = Color.Black;
+            Color colorLines = Color.Black;
+            switch (Game1.Theme)
             {
 
-                case "White":
-
-                    colorTextGame = Color.Black;
-                    colorTextPlatform = Color.Black;
-                    colorLines = Color.Black;
-                    break;
-                case "Dark":
-
-                    colorTextGame = Color.White;
-                    colorTextPlatform = Color.White;
-                    colorLines = Color.White;
-                    break;
-                case "Velvet":
-
-                    colorTextGame = Color.White;
-                    colorTextPlatform = new Color(192, 192, 248, 255);
-                    colorLines = Color.White;
-                    break;
                 case "Winter":
 
                     colorTextGame = Color.White;
                     colorTextPlatform = Color.White;
                     colorLines = Color.White;
+                    break;
+                case "Valentines":
+
+                    colorTextGame = Color.White;
+                    colorTextPlatform = Color.White;
+                    colorLines = Color.White;
+                    break;
+                case "Halloween":
+
+                    colorTextGame = Color.White;
+                    colorTextPlatform = new Color(239, 140, 17);
+                    colorLines = Color.Black * 0.0f;
+                    break;
+                case "Friday the 13th":
+
+                    colorTextGame = Color.White;
+                    colorTextPlatform = new Color(192, 192, 248, 255);
+                    colorLines = Color.White * 0.0f;
+                    break;
+                case "Summer":
+
+                    colorTextGame = new Color(235, 127, 0);
+                    colorTextPlatform = new Color(172, 240, 242);
+                    colorLines = Color.White * 0.0f;
+                    break;
+                case "Spring":
+
+                    colorTextGame = new Color(255, 240, 165);
+                    colorTextPlatform = Color.White;
+                    colorLines = Color.Black * 0.0f;
+                    break;
+                case "Autumn":
+
+                    colorTextGame = new Color(239, 236, 202);
+                    colorTextPlatform = Color.White;
+                    colorLines = new Color(239, 236, 202);
                     break;
                 default:
 

@@ -134,30 +134,46 @@ namespace PP_OS
 
             spriteBatch.Draw(Game1.Buttons, position, sourceRectangle, Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
 
-            Color colorNormal;
-            Color colorInverted;
-            switch (Game1.Settings[2])
+            Color colorNormal = Color.Black;
+            Color colorInverted = Color.Black;
+
+            switch (Game1.Theme)
             {
 
-                case "White":
-
-                    colorNormal = Color.White;
-                    colorInverted = Color.Black;
-                    break;
-                case "Dark":
-
-                    colorNormal = Color.White;
-                    colorInverted = Color.White;
-                    break;
-                case "Velvet":
-
-                    colorNormal = Color.White;
-                    colorInverted = Color.White;
-                    break;
                 case "Winter":
 
                     colorNormal = Color.White;
                     colorInverted = Color.White;
+                    break;
+                case "Valentines":
+
+                    colorNormal = Color.White;
+                    colorInverted = Color.White;
+                    break;
+                case "Halloween":
+
+                    colorNormal = Color.White;
+                    colorInverted = Color.White;
+                    break;
+                case "Friday the 13th":
+
+                    colorNormal = Color.White;
+                    colorInverted = Color.White;
+                    break;
+                case "Summer":
+
+                    colorNormal = new Color(172, 240, 242);
+                    colorInverted = new Color(172, 240, 242);
+                    break;
+                case "Spring":
+
+                    colorNormal = Color.White;
+                    colorInverted = Color.White;
+                    break;
+                case "Autumn":
+
+                    colorNormal = new Color(239, 236, 202);
+                    colorInverted = new Color(239, 236, 202);
                     break;
                 default:
 

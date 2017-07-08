@@ -57,25 +57,37 @@ namespace PP_OS
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            Color color;
-            switch(Game1.Settings[2])
+            Color color = Color.Black;
+            switch (Game1.Theme)
             {
 
-                case "White":
-
-                    color = Color.Black;
-                    break;
-                case "Dark":
-
-                    color = Color.White;
-                    break;
-                case "Velvet":
-
-                    color = Color.White;
-                    break;
                 case "Winter":
 
                     color = Color.White;
+                    break;
+                case "Valentines":
+
+                    color = new Color(162, 13, 30);
+                    break;
+                case "Halloween":
+
+                    color = new Color(239, 140, 17);
+                    break;
+                case "Friday the 13th":
+
+                    color = Color.White;
+                    break;
+                case "Summer":
+
+                    color = new Color(172, 240, 242);
+                    break;
+                case "Spring":
+
+                    color = new Color(255, 240, 165);
+                    break;
+                case "Autumn":
+
+                    color = new Color(239, 236, 202);
                     break;
                 default:
 

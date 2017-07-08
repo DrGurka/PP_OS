@@ -255,27 +255,43 @@ namespace PP_OS
                 }
             }
 
-            Color colorText;
-            Color colorTextInverted;
-            switch (Game1.Settings[2])
+            Color colorText = Color.Black;
+            Color colorTextInverted = Color.Black;
+
+            switch (Game1.Theme)
             {
 
-                case "White":
-
-                    colorText = Color.Black;
-                    colorTextInverted = Color.White;
-                    break;
-                case "Dark":
-
-                    colorText = Color.White;
-                    colorTextInverted = Color.White;
-                    break;
-                case "Velvet":
-
-                    colorText = Color.White;
-                    colorTextInverted = Color.White;
-                    break;
                 case "Winter":
+
+                    colorText = Color.White;
+                    colorTextInverted = Color.White;
+                    break;
+                case "Valentines":
+
+                    colorText = new Color(188, 13, 53);
+                    colorTextInverted = Color.White;
+                    break;
+                case "Halloween":
+
+                    colorText = new Color(239, 140, 17);
+                    colorTextInverted = new Color(239, 140, 17);
+                    break;
+                case "Friday the 13th":
+
+                    colorText = Color.White;
+                    colorTextInverted = Color.White;
+                    break;
+                case "Summer":
+
+                    colorText = Color.White;
+                    colorTextInverted = Color.White;
+                    break;
+                case "Spring":
+
+                    colorText = Color.White;
+                    colorTextInverted = Color.White;
+                    break;
+                case "Autumn":
 
                     colorText = Color.White;
                     colorTextInverted = Color.White;

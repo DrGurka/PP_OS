@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Configuration;
+using System;
 
 namespace PP_OS
 {
@@ -32,7 +33,11 @@ namespace PP_OS
         static int currentPlatform;
         static int thumbnailCount;
 
+        static string theme;
+
         static float delta;
+
+        int lastDay;
 
         public static int CurrentThumbnail
         {
@@ -167,6 +172,19 @@ namespace PP_OS
             }
         }
 
+        public static string Theme
+        {
+            get
+            {
+                return theme;
+            }
+
+            set
+            {
+                theme = value;
+            }
+        }
+
         public Game1()
         {
 
@@ -195,11 +213,10 @@ namespace PP_OS
         {
 
             ConfigurationManager.RefreshSection("appSettings");
-            settings = new string[3];
+            settings = new string[2];
 
             settings[0] = ConfigurationManager.AppSettings["PortablePath"];
             settings[1] = ConfigurationManager.AppSettings["GamePath"];
-            settings[2] = ConfigurationManager.AppSettings["Theme"];
         }
 
         void Reset()
@@ -270,6 +287,90 @@ namespace PP_OS
         protected override void Update(GameTime gameTime)
         {
 
+            if(lastDay != DateTime.Now.Day)
+            {
+
+                switch (DateTime.Now.Month)
+                {
+
+                    case 1:
+
+                        theme = "Winter";
+                        break;
+                    case 2:
+
+                        if (DateTime.Now.Day != 14)
+                        {
+
+                            theme = "Winter";
+                        }
+                        else
+                        {
+
+                            theme = "Valentines";
+                        }
+                        break;
+                    case 3:
+
+                        theme = "Spring";
+                        break;
+                    case 4:
+
+                        theme = "Spring";
+                        break;
+                    case 5:
+
+                        theme = "Spring";
+                        break;
+                    case 6:
+
+                        theme = "Summer";
+                        break;
+                    case 7:
+
+                        theme = "Summer";
+                        break;
+                    case 8:
+
+                        theme = "Summer";
+                        break;
+                    case 9:
+
+                        theme = "Autumn";
+                        break;
+                    case 10:
+
+                        if (DateTime.Now.Day != 31)
+                        {
+
+                            theme = "Autumn";
+                        }
+                        else
+                        {
+
+                            theme = "Halloween";
+                        }
+                        break;
+                    case 11:
+
+                        theme = "Autumn";
+                        break;
+                    case 12:
+
+                        theme = "Winter";
+                        break;
+
+                }
+
+                if (DateTime.Now.DayOfWeek == DayOfWeek.Friday && DateTime.Now.Day == 13)
+                {
+
+                    theme = "Friday the 13th";
+                }
+
+                lastDay = DateTime.Now.Day;
+            }
+
             input.HandleInput();
 
             if (!paused)
@@ -284,28 +385,44 @@ namespace PP_OS
                 Color color = Color.White;
                 Vector4 colorAttractor = new Vector4(0, 0, 0, 0);
 
-                switch(settings[2])
+                switch(theme)
                 {
 
-                    case "White":
 
-                        color = new Color(128, 255, 255, 255);
-                        colorAttractor = new Vector4(50, -128, 0, 0);
-                        break;
-                    case "Dark":
-
-                        color = new Color(255, 255, 255, 255);
-                        colorAttractor = new Vector4(0, 0, 0, 128);
-                        break;
-                    case "Velvet":
-
-                        color = new Color(239, 22, 58, 255);
-                        colorAttractor = new Vector4(-159, 17, 177, 128);
-                        break;
                     case "Winter":
 
                         color = new Color(255, 255, 255, 255);
-                        colorAttractor = new Vector4(0, 0, 0, 128);
+                        colorAttractor = new Vector4(0, 0, 0, -128);
+                        break;
+                    case "Valentines":
+
+                        color = new Color(188, 13, 53);
+                        colorAttractor = new Vector4(-26, 0, -23, 0);
+                        break;
+                    case "Halloween":
+
+                        color = new Color(239, 140, 17);
+                        colorAttractor = new Vector4(-16, -62, 40, 0);
+                        break;
+                    case "Friday the 13th":
+
+                        color = new Color(239, 22, 58, 255);
+                        colorAttractor = new Vector4(-159, 17, 177, -128);
+                        break;
+                    case "Summer":
+
+                        color = new Color(243, 255, 226, 255);
+                        colorAttractor = new Vector4(0, 0, 0, -128);
+                        break;
+                    case "Spring":
+
+                        color = new Color(142, 40, 0);
+                        colorAttractor = new Vector4(113, 136, 59, 0);
+                        break;
+                    case "Autumn":
+
+                        color = new Color(4, 99, 128);
+                        colorAttractor = new Vector4(0, 0, 0, 0);
                         break;
                     default:
 
@@ -342,24 +459,36 @@ namespace PP_OS
             if (!paused)
             {
 
-                switch(settings[2])
+                switch (theme)
                 {
 
-                    case "White":
-
-                        GraphicsDevice.Clear(Color.White);
-                        break;
-                    case "Dark":
-
-                        GraphicsDevice.Clear(Color.Black);
-                        break;
-                    case "Velvet":
-
-                        GraphicsDevice.Clear(new Color(9, 9, 11, 255));
-                        break;
                     case "Winter":
 
-                        GraphicsDevice.Clear(new Color(19, 19, 25, 255));
+                        GraphicsDevice.Clear(new Color(19, 19, 25));
+                        break;
+                    case "Valentines":
+
+                        GraphicsDevice.Clear(new Color(246, 177, 195));
+                        break;
+                    case "Halloween":
+
+                        GraphicsDevice.Clear(new Color(19, 11, 41));
+                        break;
+                    case "Friday the 13th":
+
+                        GraphicsDevice.Clear(new Color(9, 9, 11));
+                        break;
+                    case "Summer":
+
+                        GraphicsDevice.Clear(new Color(34, 83, 120));
+                        break;
+                    case "Spring":
+
+                        GraphicsDevice.Clear(new Color(60, 99, 74));
+                        break;
+                    case "Autumn":
+
+                        GraphicsDevice.Clear(new Color(0, 47, 47));
                         break;
                     default:
 
