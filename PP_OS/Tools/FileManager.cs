@@ -65,9 +65,9 @@ namespace PP_OS
         string[,] GetGamesInDirectory(string path)
         {
 
-            var currentDirectory = @"Games\" + path;
+            var currentDirectory = Game1.Settings[1] + path;
             var directories = Directory.GetDirectories(currentDirectory);
-            string[,] fileNames = new string[directories.Length, 6];
+            string[,] fileNames = new string[directories.Length, 7];
 
             for (int i = 0; i < directories.Length; i++)
             {
@@ -94,6 +94,12 @@ namespace PP_OS
                                 fileNames[i, 0] = directories[i] + @"\" + filesInDir[x];
                             }
                         }
+                        else if (filesInDir[x].ToString().EndsWith("Title.png"))
+                        {
+
+
+                            fileNames[i, 6] = directories[i] + @"\" + filesInDir[x];
+                        }
                         else if (filesInDir[x].ToString().EndsWith(".png"))
                         {
 
@@ -109,6 +115,7 @@ namespace PP_OS
 
                             fileNames[i, 3] = directories[i] + @"\" + filesInDir[x];
                         }
+                        
                     }
                 }
                 

@@ -12,6 +12,7 @@ namespace PP_OS
 
         Texture2D texture;
         Vector2 position;
+        Texture2D title;
 
         string info;
         string exePath;
@@ -120,7 +121,7 @@ namespace PP_OS
             }
         }
 
-        public Thumbnail(Texture2D texture, Vector2 position, string info, string exePath, float layer, int index, string name, Song song, string platform, int platformIndex)
+        public Thumbnail(Texture2D texture, Vector2 position, string info, string exePath, float layer, int index, string name, Song song, string platform, int platformIndex, Texture2D title)
         {
 
             this.texture = texture;
@@ -133,8 +134,9 @@ namespace PP_OS
             this.song = song;
             this.platform = platform;
             this.platformIndex = platformIndex;
+            this.title = title;
 
-            button = new Button(Button.ButtonTexture.ButtonY, new Vector2(Game1.ScreenSize.X - 60, Game1.ScreenSize.Y - 66), layer, "Info", true, 400, 3, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
+            button = new Button(Button.ButtonTexture.ButtonY, new Vector2(60, Game1.ScreenSize.Y - 66), layer, "Info", false, 400, 3, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
             button.Alpha = alpha;
         }
 
@@ -309,15 +311,25 @@ namespace PP_OS
                     button.Draw(spriteBatch);
                 }
 
-                spriteBatch.DrawString(Game1.SpriteFont, name, new Vector2(Game1.ScreenSize.X / 2f, (position.Y - (texture.Height / 2f)) / 2f), colorTextGame * alpha, 0.0f, Game1.SpriteFont.MeasureString(name) / 2f, 2, SpriteEffects.None, 0.1f);
+                if(title != null)
+                {
 
-                spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)((position.Y - (texture.Height / 2f)) / 2f) + (int)(Game1.SpriteFont.MeasureString(name).Y + 6), (int)Game1.SpriteFont.MeasureString(name).X * 2, 4), null, colorLines * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)((position.Y - (texture.Height / 2f)) / 2f) - (int)(Game1.SpriteFont.MeasureString(name).Y + 12), (int)(Game1.SpriteFont.MeasureString(name).X * 2), 4), null, colorLines * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+
+                    spriteBatch.Draw(title, new Vector2(Game1.ScreenSize.X / 2f, (position.Y - (texture.Height / 2f)) / 2f), null, Color.White * alpha, 0.0f, new Vector2(title.Width / 2, title.Height / 2), 1f, SpriteEffects.None, 0.1f);
+                }
+                else
+                {
+
+                    spriteBatch.DrawString(Game1.SpriteFont, name, new Vector2(Game1.ScreenSize.X / 2f, (position.Y - (texture.Height / 2f)) / 2f), colorTextGame * alpha, 0.0f, Game1.SpriteFont.MeasureString(name) / 2f, 2, SpriteEffects.None, 0.1f);
+
+                    spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)((position.Y - (texture.Height / 2f)) / 2f) + (int)(Game1.SpriteFont.MeasureString(name).Y + 6), (int)Game1.SpriteFont.MeasureString(name).X * 2, 4), null, colorLines * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                    spriteBatch.Draw(Game1.Rect, new Rectangle((int)(Game1.ScreenSize.X / 2f) - (int)Game1.SpriteFont.MeasureString(name).X, (int)((position.Y - (texture.Height / 2f)) / 2f) - (int)(Game1.SpriteFont.MeasureString(name).Y + 12), (int)(Game1.SpriteFont.MeasureString(name).X * 2), 4), null, colorLines * alpha, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+                }
 
                 if (MainScreen.PlatformsCount > 1)
                 {
 
-                    spriteBatch.DrawString(Game1.SpriteFont, platform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.SpriteFont.MeasureString(name).Y * 2) - 12), colorTextPlatform * alpha, 0.0f, Game1.SpriteFont.MeasureString(platform) / 2f, 1f, SpriteEffects.None, 0.1f);
+                    spriteBatch.DrawString(Game1.SpriteFont, platform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.SpriteFont.MeasureString(name).Y * 2) ), colorTextPlatform * alpha, 0.0f, Game1.SpriteFont.MeasureString(platform) / 2f, 1f, SpriteEffects.None, 0.1f);
                 }
 
                 if (!Game1.Paused && processRunning)

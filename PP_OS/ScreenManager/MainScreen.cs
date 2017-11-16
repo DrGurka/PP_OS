@@ -95,15 +95,15 @@ namespace PP_OS
 
             platforms = new List<string>();
 
-            var directories = Directory.GetDirectories(@"Games");
+            var directories = Directory.GetDirectories(Game1.Settings[1].Remove(Game1.Settings[1].Length - 1, 1));
 
             for (int i = 0; i < directories.Length; i++)
             {
 
-                platforms.Add(directories[i].Replace(@"Games\", ""));
+                platforms.Add(directories[i].Replace(Game1.Settings[1], ""));
             }
 
-            button = new Button(Button.ButtonTexture.ButtonA, new Vector2(32, Game1.ScreenSize.Y - 66), 1.0f, "Select", false, 400, 3, 0, 0);
+            button = new Button(Button.ButtonTexture.ButtonA, new Vector2((Game1.ScreenSize.X / 2) - Game1.SpriteFont.MeasureString("Play").X, Game1.ScreenSize.Y - 66), 1.0f, "Play", false, 400, 3, 0, 0);
             button.Alpha = 1;
 
             sign = contentManager.Load<Texture2D>(@"sign");
@@ -136,6 +136,14 @@ namespace PP_OS
                     fileStream = new FileStream(fileManager.GamePaths[i, 1], FileMode.Open);
                     Texture2D texture = Texture2D.FromStream(graphicsDevice, fileStream);
 
+                    Texture2D title = null;
+                    if(fileManager.GamePaths[i, 6] != null)
+                    {
+
+                        fileStream = new FileStream(fileManager.GamePaths[i, 6], FileMode.Open);
+                        title = Texture2D.FromStream(graphicsDevice, fileStream);
+                    }
+                    
                     string songPath = Directory.GetCurrentDirectory() + @"\" + fileManager.GamePaths[i, 3];
 
                     Song song;
@@ -164,7 +172,7 @@ namespace PP_OS
                         tmpString = null;
                     }
 
-                    thumbnails.Add(new Thumbnail(texture, new Vector2((Game1.ScreenSize.X / 2f) + ((i - Game1.CurrentThumbnail)), (Game1.ScreenSize.Y / 2f) + ((lastPlatform) * 135)), tmpString, fileManager.GamePaths[i, 0], 0.1f, i, fileManager.GamePaths[i, 4], song, fileManager.GamePaths[i, 5], Game1.CurrentPlatform));
+                    thumbnails.Add(new Thumbnail(texture, new Vector2((Game1.ScreenSize.X / 2f) + ((i - Game1.CurrentThumbnail)), (Game1.ScreenSize.Y / 2f) + ((lastPlatform) * 135)), tmpString, fileManager.GamePaths[i, 0], 0.1f, i, fileManager.GamePaths[i, 4], song, fileManager.GamePaths[i, 5], Game1.CurrentPlatform, title));
 
                     fileStream.Close();
                 }
@@ -323,7 +331,7 @@ namespace PP_OS
                 spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowDown.Position.Y + 36), colorText, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.3f);
             }
             
-            spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, Game1.ScreenSize.Y), null, (signInvert ? colorTextInverted : colorText), 0.0f, new Vector2(sign.Width / 2f, sign.Height + 1), 2f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, 0), null, (signInvert ? colorTextInverted : colorText), 0.0f, new Vector2(sign.Width / 2f, -1), 2f, SpriteEffects.None, 1.0f);
         }
 
         public void HandleInput(GameTime gameTime)

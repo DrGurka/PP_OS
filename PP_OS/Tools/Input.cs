@@ -331,15 +331,12 @@ namespace PP_OS
         public void HandleInput()
         {
 
-            GamePadState gp = GamePad.GetState(PlayerIndex.One);
             KeyboardState ks = Keyboard.GetState();
-
-            leftThumbstick = gp.ThumbSticks.Left;
 
             if (!button1IsPressed)
             {
 
-                button1Pressed = gp.IsButtonDown(Buttons.A) || ks.IsKeyDown(Keys.Enter);
+                button1Pressed = ks.IsKeyDown(Keys.R);
             }
             else
             {
@@ -347,13 +344,13 @@ namespace PP_OS
                 button1Pressed = false;
             }
 
-            button1IsPressed = gp.IsButtonDown(Buttons.A) || ks.IsKeyDown(Keys.Enter);
-            button1Released = gp.IsButtonUp(Buttons.A) && ks.IsKeyUp(Keys.Enter);
+            button1IsPressed = ks.IsKeyDown(Keys.R);
+            button1Released = ks.IsKeyUp(Keys.R);
 
             if (!button3IsPressed)
             {
 
-                button3Pressed = gp.IsButtonDown(Buttons.Y) || ks.IsKeyDown(Keys.Y);
+                button3Pressed = ks.IsKeyDown(Keys.Enter);
             }
             else
             {
@@ -361,13 +358,13 @@ namespace PP_OS
                 button3Pressed = false;
             }
 
-            button3IsPressed = gp.IsButtonDown(Buttons.Y) || ks.IsKeyDown(Keys.Y);
-            button3Released = gp.IsButtonUp(Buttons.Y) && ks.IsKeyUp(Keys.Y);
+            button3IsPressed = ks.IsKeyDown(Keys.Enter);
+            button3Released = ks.IsKeyUp(Keys.Enter);
 
             if (!button4IsPressed)
             {
 
-                button4Pressed = gp.IsButtonDown(Buttons.B) || ks.IsKeyDown(Keys.Back);
+                button4Pressed = ks.IsKeyDown(Keys.Space);
             }
             else
             {
@@ -375,13 +372,13 @@ namespace PP_OS
                 button4Pressed = false;
             }
 
-            button4IsPressed = gp.IsButtonDown(Buttons.B) || ks.IsKeyDown(Keys.Back);
-            button4Released = gp.IsButtonUp(Buttons.B) && ks.IsKeyUp(Keys.Back);
+            button4IsPressed = ks.IsKeyDown(Keys.Space);
+            button4Released = ks.IsKeyUp(Keys.Space);
 
             if (!dPadLeftIsPressed)
             {
 
-                dPadLeftPressed = gp.IsButtonDown(Buttons.DPadLeft) || ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A);
+                dPadLeftPressed = ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A);
             }
             else
             {
@@ -389,13 +386,13 @@ namespace PP_OS
                 dPadLeftPressed = false;
             }
 
-            dPadLeftIsPressed = gp.IsButtonDown(Buttons.DPadLeft) || ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A);
-            dPadLeftReleased = gp.IsButtonUp(Buttons.DPadLeft) && ks.IsKeyUp(Keys.Left) && ks.IsKeyUp(Keys.A);
+            dPadLeftIsPressed = ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A);
+            dPadLeftReleased = ks.IsKeyUp(Keys.Left) && ks.IsKeyUp(Keys.A);
 
             if (!dPadRightIsPressed)
             {
 
-                dPadRightPressed = gp.IsButtonDown(Buttons.DPadRight) || ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D);
+                dPadRightPressed = ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D);
             }
             else
             {
@@ -403,13 +400,13 @@ namespace PP_OS
                 dPadRightPressed = false;
             }
 
-            dPadRightIsPressed = gp.IsButtonDown(Buttons.DPadRight) || ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D);
-            dPadRightReleased = gp.IsButtonUp(Buttons.DPadRight) && ks.IsKeyUp(Keys.Right) && ks.IsKeyUp(Keys.D);
+            dPadRightIsPressed = ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D);
+            dPadRightReleased = ks.IsKeyUp(Keys.Right) && ks.IsKeyUp(Keys.D);
 
             if (!dPadUpIsPressed)
             {
 
-                dPadUpPressed = gp.IsButtonDown(Buttons.DPadUp) || ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W);
+                dPadUpPressed = ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W);
             }
             else
             {
@@ -417,13 +414,13 @@ namespace PP_OS
                 dPadUpPressed = false;
             }
 
-            dPadUpIsPressed = gp.IsButtonDown(Buttons.DPadUp) || ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W);
-            dPadUpReleased = gp.IsButtonUp(Buttons.DPadUp) && ks.IsKeyUp(Keys.Up) && ks.IsKeyUp(Keys.W);
+            dPadUpIsPressed = ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W);
+            dPadUpReleased = ks.IsKeyUp(Keys.Up) && ks.IsKeyUp(Keys.W);
 
             if (!dPadDownIsPressed)
             {
 
-                dPadDownPressed = gp.IsButtonDown(Buttons.DPadDown) || ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S);
+                dPadDownPressed = ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S);
             }
             else
             {
@@ -431,8 +428,8 @@ namespace PP_OS
                 dPadDownPressed = false;
             }
 
-            dPadDownIsPressed = gp.IsButtonDown(Buttons.DPadDown) || ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S);
-            dPadDownReleased = gp.IsButtonUp(Buttons.DPadDown) && ks.IsKeyUp(Keys.Down) && ks.IsKeyUp(Keys.S);
+            dPadDownIsPressed = ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S);
+            dPadDownReleased = ks.IsKeyUp(Keys.Down) && ks.IsKeyUp(Keys.S);
         }
     }
 }
