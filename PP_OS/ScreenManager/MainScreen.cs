@@ -24,6 +24,7 @@ namespace PP_OS
         static Thumbnail currentThumbnail;
 
         static bool signInvert;
+        public static bool thumbnailOpen;
 
         int[] currentIndex;
         int lastPlatform;
@@ -33,8 +34,6 @@ namespace PP_OS
 
         Texture2D sign;
         SpriteFont font;
-
-        bool releasedY, releasedX;
 
         public bool IsPaused { get; private set; }
 
@@ -337,113 +336,110 @@ namespace PP_OS
         public void HandleInput(GameTime gameTime)
         {
 
-            if (releasedY)
+            if (Input.Button3IsPressed && Input.Button4Released && !Input.Button1IsPressed)
             {
 
-                if (Input.LeftThumbstick.Y > 0.2 || Input.DPadDownPressed)
+                if (platforms.Count > 1)
                 {
 
-                    if (platforms.Count > 1)
+                    if (Game1.CurrentPlatform < platforms.Count - 1)
                     {
 
-                        if (Game1.CurrentPlatform < platforms.Count - 1)
-                        {
-
-                            lastPlatform = 1;
-                            Game1.CurrentPlatform++;
-                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                            arrowUp.Activate();
-                        }
-                        else
-                        {
-
-                            lastPlatform = 1;
-                            Game1.CurrentPlatform = 0;
-                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                            arrowUp.Activate();
-                        }
-                    }
-                    releasedY = false;
-                }
-                else if (Input.LeftThumbstick.Y < -0.2 || Input.DPadUpPressed)
-                {
-
-                    if (platforms.Count > 1)
-                    {
-
-                        if (Game1.CurrentPlatform > 0)
-                        {
-
-                            lastPlatform = -1;
-                            Game1.CurrentPlatform--;
-                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                            arrowDown.Activate();
-                        }
-                        else
-                        {
-
-                            lastPlatform = -1;
-                            Game1.CurrentPlatform = platforms.Count - 1;
-                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                            arrowDown.Activate();
-                        }
-                    }
-                    releasedY = false;
-                }
-
-                
-            }
-            else if (Input.LeftThumbstick.Y > -0.2 && Input.LeftThumbstick.Y < 0.2)
-            {
-
-                releasedY = true;
-            }
-
-            if (releasedX)
-            {
-
-                if (Input.LeftThumbstick.X > 0.2 || Input.DPadRightPressed)
-                {
-
-                    if (Game1.CurrentThumbnail < Game1.ThumbnailCount)
-                    {
-
-                        Game1.CurrentThumbnail++;
-                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
+                        lastPlatform = 1;
+                        Game1.CurrentPlatform++;
+                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                        arrowUp.Activate();
                     }
                     else
                     {
 
-                        Game1.CurrentThumbnail = 0;
-                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
+                        lastPlatform = 1;
+                        Game1.CurrentPlatform = 0;
+                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                        arrowUp.Activate();
                     }
-                    releasedX = false;
                 }
-                else if (Input.LeftThumbstick.X < -0.2 || Input.DPadLeftPressed)
+
+                Input.DPadLeftIsPressed = false;
+                Input.DPadRightIsPressed = false;
+                Input.DPadRightPressed = false;
+                Input.DPadLeftPressed = false;
+
+                Input.Button3IsPressed = false;
+                Input.Button4IsPressed = false;
+                Input.Button3Pressed = false;
+                Input.Button4Pressed = false;
+            }
+            else if (Input.Button4IsPressed && Input.Button3Released && !Input.Button1IsPressed)
+            {
+
+                if (platforms.Count > 1)
                 {
 
-                    if (Game1.CurrentThumbnail > 0)
+                    if (Game1.CurrentPlatform > 0)
                     {
 
-                        Game1.CurrentThumbnail--;
-                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
+                        lastPlatform = -1;
+                        Game1.CurrentPlatform--;
+                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                        arrowDown.Activate();
                     }
                     else
                     {
 
-                        Game1.CurrentThumbnail = Game1.ThumbnailCount;
-                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
+                        lastPlatform = -1;
+                        Game1.CurrentPlatform = platforms.Count - 1;
+                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                        arrowDown.Activate();
                     }
-                    releasedX = false;
                 }
+
+                Input.DPadLeftIsPressed = false;
+                Input.DPadRightIsPressed = false;
+                Input.DPadRightPressed = false;
+                Input.DPadLeftPressed = false;
+
+                Input.Button3IsPressed = false;
+                Input.Button4IsPressed = false;
+                Input.Button3Pressed = false;
+                Input.Button4Pressed = false;
             }
-            else if (Input.LeftThumbstick.X > -0.2 && Input.LeftThumbstick.X < 0.2)
+
+
+            if (Input.DPadRightReleased)
             {
 
-                releasedX = true;
+                if (Game1.CurrentThumbnail < Game1.ThumbnailCount)
+                {
+
+                    Game1.CurrentThumbnail++;
+                    currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
+                }
+                else
+                {
+
+                    Game1.CurrentThumbnail = 0;
+                    currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
+                }
+            }
+            else if (Input.DPadLeftReleased)
+            {
+
+                if (Game1.CurrentThumbnail > 0)
+                {
+
+                    Game1.CurrentThumbnail--;
+                    currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
+                }
+                else
+                {
+
+                    Game1.CurrentThumbnail = Game1.ThumbnailCount;
+                    currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
+                }
             }
 
-            if (Input.Button3Pressed)
+            if (Input.Button4IsPressed && Input.Button1IsPressed && !Input.Button3IsPressed && !thumbnailOpen)
             {
 
                 foreach(var thumbnail in thumbnails)
@@ -454,11 +450,20 @@ namespace PP_OS
 
                         thumbnail.OpenThumbnail(screenManager);
                         thumbnail.DisplayingInfo = true;
+                        thumbnailOpen = true;
+                        
+                        Input.Button1IsPressed = false;
+                        Input.Button1Pressed = false;
+
+                        Input.DPadLeftIsPressed = false;
+                        Input.DPadRightIsPressed = false;
+                        Input.DPadRightPressed = false;
+                        Input.DPadLeftPressed = false;
                     }
                 }
             }
 
-            if (Input.Button1Pressed)
+            if (Input.Button1Released && !Input.Button4IsPressed && !Input.Button3IsPressed && !thumbnailOpen)
             {
 
                 foreach (var thumbnail in thumbnails)

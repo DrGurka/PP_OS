@@ -34,7 +34,7 @@ namespace PP_OS
         static bool dPadDownIsPressed;
         static bool dPadDownReleased;
 
-        static Vector2 leftThumbstick;
+        KeyboardState ksLast;
 
         public static bool Button1Pressed
         {
@@ -111,19 +111,6 @@ namespace PP_OS
             set
             {
                 button4Released = value;
-            }
-        }
-
-        public static Vector2 LeftThumbstick
-        {
-            get
-            {
-                return leftThumbstick;
-            }
-
-            set
-            {
-                leftThumbstick = value;
             }
         }
 
@@ -336,100 +323,149 @@ namespace PP_OS
             if (!button1IsPressed)
             {
 
-                button1Pressed = ks.IsKeyDown(Keys.R);
+                if (!ksLast.IsKeyDown(Keys.R))
+                {
+
+                    button1Pressed = ks.IsKeyDown(Keys.R);
+                    button1Released = false;
+                }
             }
             else
             {
 
+                button1Released = ks.IsKeyUp(Keys.R);
                 button1Pressed = false;
             }
 
-            button1IsPressed = ks.IsKeyDown(Keys.R);
-            button1Released = ks.IsKeyUp(Keys.R);
+            if (button1Pressed)
+            {
+
+                button1IsPressed = true;
+            }
+            else if (button1Released)
+            {
+
+                button1IsPressed = false;
+            }
 
             if (!button3IsPressed)
             {
 
                 button3Pressed = ks.IsKeyDown(Keys.Enter);
+                button3Released = false;
             }
             else
             {
 
+                button3Released = ks.IsKeyUp(Keys.Enter);
                 button3Pressed = false;
             }
 
             button3IsPressed = ks.IsKeyDown(Keys.Enter);
-            button3Released = ks.IsKeyUp(Keys.Enter);
 
             if (!button4IsPressed)
             {
 
                 button4Pressed = ks.IsKeyDown(Keys.Space);
+                button4Released = false;
             }
             else
             {
 
+                button4Released = ks.IsKeyUp(Keys.Space);
                 button4Pressed = false;
             }
 
             button4IsPressed = ks.IsKeyDown(Keys.Space);
-            button4Released = ks.IsKeyUp(Keys.Space);
-
+            
             if (!dPadLeftIsPressed)
             {
 
-                dPadLeftPressed = ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A);
+                if (!ksLast.IsKeyDown(Keys.Left) && !ksLast.IsKeyDown(Keys.A) && !ksLast.IsKeyDown(Keys.Enter))
+                {
+
+                    dPadLeftPressed = ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A) || ks.IsKeyDown(Keys.Enter);
+                    dPadLeftReleased = false;
+                }
             }
             else
             {
 
+                dPadLeftReleased = ks.IsKeyUp(Keys.Left) && ks.IsKeyUp(Keys.A) && ks.IsKeyUp(Keys.Enter);
                 dPadLeftPressed = false;
+                
             }
 
-            dPadLeftIsPressed = ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A);
-            dPadLeftReleased = ks.IsKeyUp(Keys.Left) && ks.IsKeyUp(Keys.A);
+            if (dPadLeftPressed)
+            {
+
+                dPadLeftIsPressed = true;
+            }
+            else if (dPadLeftReleased)
+            {
+
+                dPadLeftIsPressed = false;
+            }
 
             if (!dPadRightIsPressed)
             {
 
-                dPadRightPressed = ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D);
+                if (!ksLast.IsKeyDown(Keys.Right) && !ksLast.IsKeyDown(Keys.D) && !ksLast.IsKeyDown(Keys.Space))
+                {
+
+                    dPadRightPressed = ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D) || ks.IsKeyDown(Keys.Space);
+                    dPadRightReleased = false;
+                }
             }
             else
             {
 
+                dPadRightReleased = ks.IsKeyUp(Keys.Right) && ks.IsKeyUp(Keys.D) && ks.IsKeyUp(Keys.Space);
                 dPadRightPressed = false;
             }
 
-            dPadRightIsPressed = ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D);
-            dPadRightReleased = ks.IsKeyUp(Keys.Right) && ks.IsKeyUp(Keys.D);
+            if(dPadRightPressed)
+            {
+
+                dPadRightIsPressed = true;
+            }
+            else if (dPadRightReleased)
+            {
+
+                dPadRightIsPressed = false;
+            }
 
             if (!dPadUpIsPressed)
             {
 
                 dPadUpPressed = ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W);
+                dPadUpReleased = false;
             }
             else
             {
 
+                dPadUpReleased = ks.IsKeyUp(Keys.Up) && ks.IsKeyUp(Keys.W);
                 dPadUpPressed = false;
             }
 
             dPadUpIsPressed = ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W);
-            dPadUpReleased = ks.IsKeyUp(Keys.Up) && ks.IsKeyUp(Keys.W);
 
             if (!dPadDownIsPressed)
             {
 
                 dPadDownPressed = ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S);
+                dPadDownReleased = false;
             }
             else
             {
 
+                dPadDownReleased = ks.IsKeyUp(Keys.Down) && ks.IsKeyUp(Keys.S);
                 dPadDownPressed = false;
             }
 
             dPadDownIsPressed = ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S);
-            dPadDownReleased = ks.IsKeyUp(Keys.Down) && ks.IsKeyUp(Keys.S);
+
+            ksLast = ks;
         }
     }
 }

@@ -149,21 +149,35 @@ namespace PP_OS
         public void HandleInput(GameTime gameTime)
         {
 
-            if (Input.Button4Pressed)
+            if (Input.Button4IsPressed && Input.Button1IsPressed && !Input.Button3IsPressed)
             {
 
                 isActive = false;
                 currentThumbnail.DisplayingInfo = false;
                 MainScreen.SignInvert = false;
                 screenManager.PopScreen();
+                MainScreen.thumbnailOpen = false;
+                Input.DPadLeftIsPressed = false;
+                Input.DPadRightIsPressed = false;
+                Input.Button1IsPressed = false;
+                Input.Button1Pressed = false;
+                Input.DPadRightPressed = false;
+                Input.DPadLeftPressed = false;
             }
 
-            if (Input.Button1Pressed)
+            if (Input.Button1Released && !Input.Button4IsPressed && !Input.Button3IsPressed)
             {
 
                 isActive = false;
                 currentThumbnail.RunProgram();
                 screenManager.PopScreen();
+                MainScreen.thumbnailOpen = false;
+                Input.DPadLeftIsPressed = false;
+                Input.DPadRightIsPressed = false;
+                Input.Button1IsPressed = false;
+                Input.Button1Pressed = false;
+                Input.DPadRightPressed = false;
+                Input.DPadLeftPressed = false;
             }
         }
 

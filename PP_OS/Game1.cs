@@ -440,14 +440,14 @@ namespace PP_OS
                 base.Update(gameTime);
             }
 
-            if((Input.Button3IsPressed && Input.Button4IsPressed) && !rested)
+            if((Input.Button3IsPressed && Input.Button4IsPressed && Input.Button1IsPressed) && !rested)
             {
 
                 Reset();
                 rested = true;
             }
 
-            if(Input.Button3Released || Input.Button4Released)
+            if(Input.Button3Released || Input.Button4Released || Input.Button1Released)
             {
 
                 rested = false;
