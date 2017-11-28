@@ -102,7 +102,7 @@ namespace PP_OS
                 platforms.Add(directories[i].Replace(Game1.Settings[1], ""));
             }
 
-            button = new Button(Button.ButtonTexture.ButtonA, new Vector2((Game1.ScreenSize.X / 2) - Game1.SpriteFont.MeasureString("Play").X, Game1.ScreenSize.Y - 66), 1.0f, "Play", false, 400, 3, 0, 0);
+            button = new Button(new List<Button.ButtonTexture>() { Button.ButtonTexture.ButtonMiddle }, new Vector2((Game1.ScreenSize.X / 2) - 27, Game1.ScreenSize.Y - 66), 1.0f, "Play", false, 400, 3, 0, 0);
             button.Alpha = 1;
 
             sign = contentManager.Load<Texture2D>(@"sign");
@@ -330,7 +330,7 @@ namespace PP_OS
                 spriteBatch.DrawString(Game1.SpriteFont, lowerPlatform, new Vector2(Game1.ScreenSize.X / 2f, arrowDown.Position.Y + 36), colorText, 0.0f, Game1.SpriteFont.MeasureString(lowerPlatform) / 2f, 1f, SpriteEffects.None, 0.3f);
             }
             
-            spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, 0), null, (signInvert ? colorTextInverted : colorText), 0.0f, new Vector2(sign.Width / 2f, -1), 2f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(sign, new Vector2(Game1.ScreenSize.X / 2f, 0), null, (signInvert ? colorTextInverted : colorText), 0.0f, new Vector2(sign.Width / 2f, -1), 2f, SpriteEffects.None, 0.0f);
         }
 
         public void HandleInput(GameTime gameTime)

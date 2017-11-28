@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System;
 using Microsoft.Xna.Framework.Media;
+using System.Collections.Generic;
 
 namespace PP_OS
 {
@@ -136,7 +137,7 @@ namespace PP_OS
             this.platformIndex = platformIndex;
             this.title = title;
 
-            button = new Button(Button.ButtonTexture.ButtonY, new Vector2(60, Game1.ScreenSize.Y - 66), layer, "Info", false, 400, 3, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
+            button = new Button(new List<Button.ButtonTexture>() { Button.ButtonTexture.ButtonMiddle, Button.ButtonTexture.ButtonRight }, new Vector2(60, Game1.ScreenSize.Y - 66), layer, "Info", false, 400, 3, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
             button.Alpha = alpha;
         }
 
@@ -329,7 +330,7 @@ namespace PP_OS
                 if (MainScreen.PlatformsCount > 1)
                 {
 
-                    spriteBatch.DrawString(Game1.SpriteFont, platform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.SpriteFont.MeasureString(name).Y * 2) ), colorTextPlatform * alpha, 0.0f, Game1.SpriteFont.MeasureString(platform) / 2f, 1f, SpriteEffects.None, 0.1f);
+                    spriteBatch.DrawString(Game1.SpriteFont, platform, new Vector2(Game1.ScreenSize.X / 2f, (Game1.SpriteFont.MeasureString(name).Y * 2) ), colorTextPlatform * alpha, 0.0f, Game1.SpriteFont.MeasureString(platform) / 2f, 1f, SpriteEffects.None, 0.2f);
                 }
 
                 if (!Game1.Paused && processRunning)

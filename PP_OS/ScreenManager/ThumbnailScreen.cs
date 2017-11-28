@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-using System.Diagnostics;
-using System.IO;
+using System.Collections.Generic;
 using System.Text;
 
 namespace PP_OS
@@ -54,7 +53,7 @@ namespace PP_OS
         public void Initialize(ContentManager contentManager)
         {
 
-            button = new Button(Button.ButtonTexture.ButtonB, new Vector2(Game1.ScreenSize.X - 60, Game1.ScreenSize.Y - 66), 1.0f, "Back", true, 400, 3, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
+            button = new Button(new List<Button.ButtonTexture>() { Button.ButtonTexture.ButtonMiddle, Button.ButtonTexture.ButtonRight }, new Vector2(Game1.ScreenSize.X - 112, Game1.ScreenSize.Y - 66), 1.0f, "Back", true, 400, 3, MainScreen.Button.CurrentFrame, MainScreen.Button.TimeSinceLastFrame);
             isActive = true;
             button.Alpha = 1;
 

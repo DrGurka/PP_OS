@@ -112,19 +112,6 @@ namespace PP_OS
             }
         }
 
-        public Texture2D Buttons1
-        {
-            get
-            {
-                return buttons;
-            }
-
-            set
-            {
-                buttons = value;
-            }
-        }
-
         public static bool Paused
         {
             get

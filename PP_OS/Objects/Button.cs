@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace PP_OS
 {
@@ -25,13 +26,12 @@ namespace PP_OS
         public enum ButtonTexture
         {
 
-            ButtonA = 0,
-            ButtonB = 19,
-            ButtonX = 38,
-            ButtonY = 57
+            ButtonLeft,
+            ButtonMiddle,
+            ButtonRight
         };
 
-        ButtonTexture buttonTexture;
+        List<ButtonTexture> buttonList;
 
         public int Width
         {
@@ -82,10 +82,10 @@ namespace PP_OS
             }
         }
 
-        public Button(ButtonTexture buttonTexture, Vector2 position, float layer, string text, bool leftSide, int millisecondsPerFrame, int size, int currentFrame, int timeSinceLastFrame)
+        public Button(List<ButtonTexture> buttonList, Vector2 position, float layer, string text, bool leftSide, int millisecondsPerFrame, int size, int currentFrame, int timeSinceLastFrame)
         {
 
-            this.buttonTexture = buttonTexture;
+            this.buttonList = buttonList;
             this.layer = layer;
             this.position = position;
             this.text = text;
@@ -122,17 +122,50 @@ namespace PP_OS
         {
 
             int width = Game1.Buttons.Width / 2;
-            int height = Game1.Buttons.Height / 4;
+            int height = Game1.Buttons.Height / 2;
             int row = (int)((float)currentFrame / 2);
             int column = currentFrame % 2;
 
-            return new Rectangle(width * column, (height * row) + (int)buttonTexture, width, height);
+            return new Rectangle(width * column, (height * row), width, height);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(Game1.Buttons, position, sourceRectangle, Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
+            Rectangle newSource = new Rectangle(sourceRectangle.X, sourceRectangle.Y + (Game1.Buttons.Height / 2), sourceRectangle.Width, sourceRectangle.Height);
+
+            if (buttonList.Contains(ButtonTexture.ButtonLeft))
+            {
+
+                spriteBatch.Draw(Game1.Buttons, position - new Vector2(Game1.Buttons.Width + (6 * size), 0), newSource, Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
+            }
+            else
+            {
+
+                spriteBatch.Draw(Game1.Buttons, position - new Vector2(Game1.Buttons.Width + (6 * size), 0), new Rectangle(0, 0, Game1.Buttons.Width / 2, Game1.Buttons.Height / 2), Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
+            }
+
+            if(buttonList.Contains(ButtonTexture.ButtonMiddle))
+            {
+
+                spriteBatch.Draw(Game1.Buttons, position, newSource, Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
+            }
+            else
+            {
+
+                spriteBatch.Draw(Game1.Buttons, position, new Rectangle(0, 0, Game1.Buttons.Width / 2, Game1.Buttons.Height / 2), Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
+            }
+
+            if (buttonList.Contains(ButtonTexture.ButtonRight))
+            {
+
+                spriteBatch.Draw(Game1.Buttons, position + new Vector2(Game1.Buttons.Width + (6 * size), 0), newSource, Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
+            }
+            else
+            {
+
+                spriteBatch.Draw(Game1.Buttons, position + new Vector2(Game1.Buttons.Width + (6 * size), 0), new Rectangle(0, 0, Game1.Buttons.Width / 2, Game1.Buttons.Height / 2), Color.White * alpha, 0.0f, Vector2.Zero, size, SpriteEffects.None, layer);
+            }
 
             Color colorNormal = Color.Black;
             Color colorInverted = Color.Black;
@@ -182,7 +215,7 @@ namespace PP_OS
                     break;
             }
 
-            spriteBatch.DrawString(Game1.SpriteFont, text, position + new Vector2((20 * size) * (leftSide ? 0 : 1) - ((3 * size) * (leftSide ? 1 : 0)), 10 * size), (ThumbnailScreen.IsActive && buttonTexture != ButtonTexture.ButtonY ? colorInverted * alpha : colorNormal * alpha), 0.0f, new Vector2(Game1.SpriteFont.MeasureString(text).X * (leftSide ? 1 : 0), Game1.SpriteFont.MeasureString(text).Y / 2f), 1f, SpriteEffects.None, layer);
+            spriteBatch.DrawString(Game1.SpriteFont, text, position - new Vector2(-9 * size, 4 * size), (ThumbnailScreen.IsActive ? colorInverted * alpha : colorNormal * alpha), 0.0f, Game1.SpriteFont.MeasureString(text) / 2f, 1f, SpriteEffects.None, layer);
         }
     }
 }
