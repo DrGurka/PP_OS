@@ -14,6 +14,7 @@ namespace PP_OS
         Texture2D texture;
         Vector2 position;
         Texture2D title;
+        Process gameProcess;
 
         string info;
         string exePath;
@@ -241,8 +242,8 @@ namespace PP_OS
             if (processRunning)
             {
 
-                spriteBatch.Draw(Game1.Rect, new Rectangle((int)position.X - (texture.Width / 2), (int)position.Y - (texture.Height / 2), texture.Width, texture.Height), null, Color.Black * 0.5f, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
-                spriteBatch.DrawString(Game1.SpriteFont, "Running!", new Vector2(position.X, position.Y), Color.White, 0.0f, Game1.SpriteFont.MeasureString("Running!") / 2f, 1, SpriteEffects.None, 1.0f);
+                spriteBatch.Draw(Game1.Rect, new Rectangle((int)position.X - (texture.Width / 2), (int)position.Y - (texture.Height / 2), texture.Width, texture.Height), null, Color.Black * 0.5f, 0.0f, Vector2.Zero, SpriteEffects.None, layer + 0.05f);
+                spriteBatch.DrawString(Game1.SpriteFont, "Running!", new Vector2(position.X, position.Y), Color.White, 0.0f, Game1.SpriteFont.MeasureString("Running!") / 2f, 1, SpriteEffects.None, layer + 0.1f);
             }
 
             Color colorTextGame = Color.Black;
@@ -357,18 +358,26 @@ namespace PP_OS
             if(!processRunning)
             {
 
-                Process.Start(Directory.GetCurrentDirectory() + @"\" + exePath);
+                gameProcess = Process.Start(Directory.GetCurrentDirectory() + @"\" + exePath);
             }
         }
 
         bool IsProcessOpen(string name)
         {
-            foreach (Process clsProcess in Process.GetProcesses())
+
+
+            if(gameProcess != null)
             {
-                if (clsProcess.ProcessName.Contains(name))
+
+                foreach (Process clsProcess in Process.GetProcesses())
                 {
-                    return true;
+                    if (clsProcess.ProcessName == gameProcess.ProcessName)
+                    {
+
+                        return true;
+                    }
                 }
+                return false;
             }
             return false;
         }

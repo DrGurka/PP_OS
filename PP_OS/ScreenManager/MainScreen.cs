@@ -422,7 +422,8 @@ namespace PP_OS
                     currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                 }
             }
-            else if (Input.DPadLeftReleased)
+
+            if (Input.DPadLeftReleased)
             {
 
                 if (Game1.CurrentThumbnail > 0)

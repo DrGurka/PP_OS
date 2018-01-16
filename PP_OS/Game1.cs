@@ -423,11 +423,11 @@ namespace PP_OS
 
                 particleSystem.Emitter(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), 0, 360, 0.4f, 0.1f, 1, (float)gameTime.TotalGameTime.TotalMilliseconds + 2500, 2500, color, colorAttractor, (float)gameTime.TotalGameTime.TotalMilliseconds, 4, 4);
                 particleSystem.Update(gameTime);
-
-                base.Update(gameTime);
             }
 
-            if((Input.Button3IsPressed && Input.Button4IsPressed && Input.Button1IsPressed) && !rested)
+            base.Update(gameTime);
+
+            if ((Input.Button3IsPressed && Input.Button4IsPressed && Input.Button1IsPressed) && !rested)
             {
 
                 Reset();
@@ -446,54 +446,48 @@ namespace PP_OS
         protected override void Draw(GameTime gameTime)
         {
 
-            if (!paused)
+            switch (theme)
             {
 
-                switch (theme)
-                {
+                case "Winter":
 
-                    case "Winter":
+                    GraphicsDevice.Clear(new Color(19, 19, 25));
+                    break;
+                case "Valentines":
 
-                        GraphicsDevice.Clear(new Color(19, 19, 25));
-                        break;
-                    case "Valentines":
+                    GraphicsDevice.Clear(new Color(246, 177, 195));
+                    break;
+                case "Halloween":
 
-                        GraphicsDevice.Clear(new Color(246, 177, 195));
-                        break;
-                    case "Halloween":
+                    GraphicsDevice.Clear(new Color(19, 11, 41));
+                    break;
+                case "Friday the 13th":
 
-                        GraphicsDevice.Clear(new Color(19, 11, 41));
-                        break;
-                    case "Friday the 13th":
+                    GraphicsDevice.Clear(new Color(9, 9, 11));
+                    break;
+                case "Summer":
 
-                        GraphicsDevice.Clear(new Color(9, 9, 11));
-                        break;
-                    case "Summer":
+                    GraphicsDevice.Clear(new Color(34, 83, 120));
+                    break;
+                case "Spring":
 
-                        GraphicsDevice.Clear(new Color(34, 83, 120));
-                        break;
-                    case "Spring":
+                    GraphicsDevice.Clear(new Color(60, 99, 74));
+                    break;
+                case "Autumn":
 
-                        GraphicsDevice.Clear(new Color(60, 99, 74));
-                        break;
-                    case "Autumn":
+                    GraphicsDevice.Clear(new Color(0, 47, 47));
+                    break;
+                default:
 
-                        GraphicsDevice.Clear(new Color(0, 47, 47));
-                        break;
-                    default:
-
-                        GraphicsDevice.Clear(Color.White);
-                        break;
-                }
-                
-                spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
-                particleSystem.Draw(spriteBatch);
-                screenManager.Draw(spriteBatch);
-                spriteBatch.End();
-
-                base.Draw(gameTime);
+                    GraphicsDevice.Clear(Color.White);
+                    break;
             }
-
+                
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
+            particleSystem.Draw(spriteBatch);
+            screenManager.Draw(spriteBatch);
+            spriteBatch.End();
+            base.Draw(gameTime);
         }
     }
 }
