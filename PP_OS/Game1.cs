@@ -483,9 +483,9 @@ namespace PP_OS
                     break;
             }
                 
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp);
-            particleSystem.Draw(spriteBatch);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp);
             screenManager.Draw(spriteBatch);
+            particleSystem.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

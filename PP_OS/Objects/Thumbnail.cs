@@ -302,7 +302,7 @@ namespace PP_OS
                     break;
             }
 
-            spriteBatch.Draw(texture, position, null, Color.White * alpha, 0.0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, layer);
+            spriteBatch.Draw(texture, position, null, Color.White * alpha, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, layer);
 
             if (Game1.CurrentThumbnail == index)
             {
@@ -317,7 +317,7 @@ namespace PP_OS
                 {
 
 
-                    spriteBatch.Draw(title, new Vector2(Game1.ScreenSize.X / 2f, (position.Y - (texture.Height / 2f)) / 2f), null, Color.White * alpha, 0.0f, new Vector2(title.Width / 2, title.Height / 2), 1f, SpriteEffects.None, 0.1f);
+                    spriteBatch.Draw(title, new Vector2(Game1.ScreenSize.X / 2, (position.Y - (texture.Height / 2)) / 2), null, Color.White * alpha, 0.0f, new Vector2(title.Width / 2, title.Height / 2), 1f, SpriteEffects.None, 0.1f);
                 }
                 else
                 {
