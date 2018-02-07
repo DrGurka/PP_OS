@@ -18,7 +18,8 @@ namespace PP_OS
         static string[] settings;
 
         static bool paused;
-        bool rested;
+        float pressedTime;
+        static bool reset;
 
         static Texture2D buttons;
 
@@ -169,6 +170,19 @@ namespace PP_OS
             set
             {
                 theme = value;
+            }
+        }
+
+        public static bool Reset1
+        {
+            get
+            {
+                return reset;
+            }
+
+            set
+            {
+                reset = value;
             }
         }
 
@@ -427,17 +441,24 @@ namespace PP_OS
 
             base.Update(gameTime);
 
-            if ((Input.Button3IsPressed && Input.Button4IsPressed && Input.Button1IsPressed) && !rested)
+            if (Input.Button3IsPressed && Input.Button4IsPressed && !reset)
             {
 
-                Reset();
-                rested = true;
+                pressedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if(pressedTime > 2000)
+                {
+
+                    Reset();
+                    pressedTime = 0;
+                    reset = true;
+                }
+                
             }
 
-            if(Input.Button3Released || Input.Button4Released || Input.Button1Released)
+            if(!Input.Button3IsPressed && !Input.Button4IsPressed)
             {
 
-                rested = false;
+                reset = false;
             }
 
             screenManager.Update(gameTime);

@@ -336,144 +336,146 @@ namespace PP_OS
         public void HandleInput(GameTime gameTime)
         {
 
-            if (Input.Button3IsPressed && Input.Button4Released && !Input.Button1IsPressed)
+            if (!Game1.Reset1)
             {
-
-                if (platforms.Count > 1)
+                if (Input.Button3IsPressed && Input.Button4Released && !Input.Button1IsPressed)
                 {
 
-                    if (Game1.CurrentPlatform < platforms.Count - 1)
+                    if (platforms.Count > 1)
                     {
 
-                        lastPlatform = 1;
-                        Game1.CurrentPlatform++;
-                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                        arrowUp.Activate();
+                        if (Game1.CurrentPlatform < platforms.Count - 1)
+                        {
+
+                            lastPlatform = 1;
+                            Game1.CurrentPlatform++;
+                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                            arrowUp.Activate();
+                        }
+                        else
+                        {
+
+                            lastPlatform = 1;
+                            Game1.CurrentPlatform = 0;
+                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                            arrowUp.Activate();
+                        }
+                    }
+
+                    Input.DPadLeftIsPressed = false;
+                    Input.DPadRightIsPressed = false;
+                    Input.DPadRightPressed = false;
+                    Input.DPadLeftPressed = false;
+
+                    Input.Button3IsPressed = false;
+                    Input.Button4IsPressed = false;
+                    Input.Button3Pressed = false;
+                    Input.Button4Pressed = false;
+                }
+                else if (Input.Button4IsPressed && Input.Button3Released && !Input.Button1IsPressed)
+                {
+
+                    if (platforms.Count > 1)
+                    {
+
+                        if (Game1.CurrentPlatform > 0)
+                        {
+
+                            lastPlatform = -1;
+                            Game1.CurrentPlatform--;
+                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                            arrowDown.Activate();
+                        }
+                        else
+                        {
+
+                            lastPlatform = -1;
+                            Game1.CurrentPlatform = platforms.Count - 1;
+                            LoadThumbnails(platforms[Game1.CurrentPlatform]);
+                            arrowDown.Activate();
+                        }
+                    }
+
+                    Input.DPadLeftIsPressed = false;
+                    Input.DPadRightIsPressed = false;
+                    Input.DPadRightPressed = false;
+                    Input.DPadLeftPressed = false;
+
+                    Input.Button3IsPressed = false;
+                    Input.Button4IsPressed = false;
+                    Input.Button3Pressed = false;
+                    Input.Button4Pressed = false;
+                }
+
+                if (Input.DPadRightReleased)
+                {
+
+                    if (Game1.CurrentThumbnail < Game1.ThumbnailCount)
+                    {
+
+                        Game1.CurrentThumbnail++;
+                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                     }
                     else
                     {
 
-                        lastPlatform = 1;
-                        Game1.CurrentPlatform = 0;
-                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                        arrowUp.Activate();
+                        Game1.CurrentThumbnail = 0;
+                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                     }
                 }
 
-                Input.DPadLeftIsPressed = false;
-                Input.DPadRightIsPressed = false;
-                Input.DPadRightPressed = false;
-                Input.DPadLeftPressed = false;
-
-                Input.Button3IsPressed = false;
-                Input.Button4IsPressed = false;
-                Input.Button3Pressed = false;
-                Input.Button4Pressed = false;
-            }
-            else if (Input.Button4IsPressed && Input.Button3Released && !Input.Button1IsPressed)
-            {
-
-                if (platforms.Count > 1)
+                if (Input.DPadLeftReleased)
                 {
 
-                    if (Game1.CurrentPlatform > 0)
+                    if (Game1.CurrentThumbnail > 0)
                     {
 
-                        lastPlatform = -1;
-                        Game1.CurrentPlatform--;
-                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                        arrowDown.Activate();
+                        Game1.CurrentThumbnail--;
+                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                     }
                     else
                     {
 
-                        lastPlatform = -1;
-                        Game1.CurrentPlatform = platforms.Count - 1;
-                        LoadThumbnails(platforms[Game1.CurrentPlatform]);
-                        arrowDown.Activate();
+                        Game1.CurrentThumbnail = Game1.ThumbnailCount;
+                        currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
                     }
                 }
 
-                Input.DPadLeftIsPressed = false;
-                Input.DPadRightIsPressed = false;
-                Input.DPadRightPressed = false;
-                Input.DPadLeftPressed = false;
-
-                Input.Button3IsPressed = false;
-                Input.Button4IsPressed = false;
-                Input.Button3Pressed = false;
-                Input.Button4Pressed = false;
-            }
-
-
-            if (Input.DPadRightReleased)
-            {
-
-                if (Game1.CurrentThumbnail < Game1.ThumbnailCount)
+                if (Input.Button4IsPressed && Input.Button1IsPressed && !Input.Button3IsPressed && !thumbnailOpen)
                 {
 
-                    Game1.CurrentThumbnail++;
-                    currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
-                }
-                else
-                {
-
-                    Game1.CurrentThumbnail = 0;
-                    currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
-                }
-            }
-
-            if (Input.DPadLeftReleased)
-            {
-
-                if (Game1.CurrentThumbnail > 0)
-                {
-
-                    Game1.CurrentThumbnail--;
-                    currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
-                }
-                else
-                {
-
-                    Game1.CurrentThumbnail = Game1.ThumbnailCount;
-                    currentIndex[Game1.CurrentPlatform] = Game1.CurrentThumbnail;
-                }
-            }
-
-            if (Input.Button4IsPressed && Input.Button1IsPressed && !Input.Button3IsPressed && !thumbnailOpen)
-            {
-
-                foreach(var thumbnail in thumbnails)
-                {
-
-                    if(thumbnail.Index == Game1.CurrentThumbnail)
+                    foreach (var thumbnail in thumbnails)
                     {
 
-                        thumbnail.OpenThumbnail(screenManager);
-                        thumbnail.DisplayingInfo = true;
-                        thumbnailOpen = true;
-                        
-                        Input.Button1IsPressed = false;
-                        Input.Button1Pressed = false;
+                        if (thumbnail.Index == Game1.CurrentThumbnail)
+                        {
 
-                        Input.DPadLeftIsPressed = false;
-                        Input.DPadRightIsPressed = false;
-                        Input.DPadRightPressed = false;
-                        Input.DPadLeftPressed = false;
+                            thumbnail.OpenThumbnail(screenManager);
+                            thumbnail.DisplayingInfo = true;
+                            thumbnailOpen = true;
+
+                            Input.Button1IsPressed = false;
+                            Input.Button1Pressed = false;
+
+                            Input.DPadLeftIsPressed = false;
+                            Input.DPadRightIsPressed = false;
+                            Input.DPadRightPressed = false;
+                            Input.DPadLeftPressed = false;
+                        }
                     }
                 }
-            }
 
-            if (Input.Button1Released && !Input.Button4IsPressed && !Input.Button3IsPressed && !thumbnailOpen)
-            {
-
-                foreach (var thumbnail in thumbnails)
+                if (Input.Button1Released && !Input.Button4IsPressed && !Input.Button3IsPressed && !thumbnailOpen)
                 {
 
-                    if (thumbnail.Index == Game1.CurrentThumbnail)
+                    foreach (var thumbnail in thumbnails)
                     {
 
-                        thumbnail.RunProgram();
+                        if (thumbnail.Index == Game1.CurrentThumbnail)
+                        {
+
+                            thumbnail.RunProgram();
+                        }
                     }
                 }
             }
