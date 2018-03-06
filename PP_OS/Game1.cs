@@ -420,8 +420,8 @@ namespace PP_OS
                         break;
                     case "Spring":
 
-                        color = new Color(142, 40, 0);
-                        colorAttractor = new Vector4(113, 136, 59, 0);
+                        color = new Color(179, 246, 255);
+                        colorAttractor = new Vector4(76, 9, 0, -90);
                         break;
                     case "Autumn":
 
@@ -492,7 +492,7 @@ namespace PP_OS
                     break;
                 case "Spring":
 
-                    GraphicsDevice.Clear(new Color(60, 99, 74));
+                    GraphicsDevice.Clear(new Color(158, 197, 255));
                     break;
                 case "Autumn":
 
