@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Configuration;
 using System;
+using Microsoft.Xna.Framework.Media;
 
 namespace PP_OS
 {
@@ -225,6 +226,8 @@ namespace PP_OS
 
         void Reset()
         {
+
+            MediaPlayer.Stop();
 
             LoadConfig();
 
