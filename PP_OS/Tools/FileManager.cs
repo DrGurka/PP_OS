@@ -40,17 +40,36 @@ namespace PP_OS
                 if(Directory.Exists(folders.Source))
                 {
 
-                    foreach (var file in Directory.GetFiles(folders.Source, "*.*"))
+                    foreach (var sourceFile in Directory.GetFiles(folders.Source, "*.*"))
                     {
 
-                        string targetFile = Path.Combine(folders.Target, Path.GetFileName(file));
+                        string name = Path.GetFileName(sourceFile);
 
-                        if (File.Exists(targetFile))
+                        if (name != "README")
                         {
 
-                            File.Delete(targetFile);
+                            string destFile = Path.Combine(folders.Target, name);
+
+                            if (File.Exists(destFile))
+                            {
+
+                                File.SetAttributes(destFile, FileAttributes.Normal);
+
+                                if(File.Exists(destFile + ".bak"))
+                                {
+
+                                    File.SetAttributes(destFile + ".bak", FileAttributes.Normal);
+                                    File.Delete(destFile + ".bak");
+                                }
+                                
+                                File.Replace(sourceFile, destFile, destFile + ".bak");
+                            }
+                            else
+                            {
+
+                                File.Move(sourceFile, destFile);
+                            }
                         }
-                        File.Copy(file, targetFile);
                     }
 
                     foreach (var folder in Directory.GetDirectories(folders.Source))

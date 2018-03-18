@@ -172,7 +172,7 @@ namespace PP_OS
                     }
 
                     thumbnails.Add(new Thumbnail(texture, new Vector2((Game1.ScreenSize.X / 2f) + ((i - Game1.CurrentThumbnail)), (Game1.ScreenSize.Y / 2f) + ((lastPlatform) * 135)), tmpString, fileManager.GamePaths[i, 0], 0.1f, i, fileManager.GamePaths[i, 4], song, fileManager.GamePaths[i, 5], Game1.CurrentPlatform, title));
-
+                    
                     fileStream.Close();
                 }
             }
@@ -484,7 +484,11 @@ namespace PP_OS
         public void Dispose()
         {
 
+            foreach(Thumbnail thumbnail in thumbnails)
+            {
 
+                thumbnail.Dispose();
+            }
         }
     }
 }

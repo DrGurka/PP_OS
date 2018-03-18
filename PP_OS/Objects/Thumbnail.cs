@@ -142,6 +142,16 @@ namespace PP_OS
             button.Alpha = alpha;
         }
 
+        public void Dispose()
+        {
+
+            if(song != null)
+            {
+
+                song.Dispose();
+            }
+        }
+
         public void Update(GameTime gameTime)
         {
 

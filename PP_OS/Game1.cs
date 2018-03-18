@@ -228,6 +228,7 @@ namespace PP_OS
         {
 
             MediaPlayer.Stop();
+            screenManager.Dispose();
 
             LoadConfig();
 
