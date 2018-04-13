@@ -134,6 +134,40 @@ namespace PP_OS
 
                     fileStream = new FileStream(fileManager.GamePaths[i, 1], FileMode.Open);
                     Texture2D texture = Texture2D.FromStream(graphicsDevice, fileStream);
+                    RenderTarget2D result = new RenderTarget2D(graphicsDevice, texture.Width, texture.Height);
+
+                    graphicsDevice.SetRenderTarget(result);
+                    graphicsDevice.Clear(Color.Black);
+
+                    var blendColor = new BlendState {
+                        ColorWriteChannels = ColorWriteChannels.Red | ColorWriteChannels.Green | ColorWriteChannels.Blue,
+                        AlphaDestinationBlend = Blend.Zero,
+                        ColorDestinationBlend = Blend.Zero,
+                        AlphaSourceBlend = Blend.SourceAlpha,
+                        ColorSourceBlend = Blend.SourceAlpha
+                    };
+
+                    var spriteBatch = new SpriteBatch(graphicsDevice);
+                    spriteBatch.Begin(SpriteSortMode.Immediate, blendColor);
+                    spriteBatch.Draw(texture, texture.Bounds, Color.White);
+                    spriteBatch.End();
+
+                    var blendAlpha = new BlendState
+                    {
+                        ColorWriteChannels = ColorWriteChannels.Alpha,
+                        AlphaDestinationBlend = Blend.Zero,
+                        ColorDestinationBlend = Blend.Zero,
+                        AlphaSourceBlend = Blend.One,
+                        ColorSourceBlend = Blend.One
+                    };
+
+                    spriteBatch.Begin(SpriteSortMode.Immediate, blendAlpha);
+                    spriteBatch.Draw(texture, texture.Bounds, Color.White);
+                    spriteBatch.End();
+
+                    graphicsDevice.SetRenderTarget(null);
+
+                    texture = result as Texture2D;
 
                     Texture2D title = null;
                     if(fileManager.GamePaths[i, 6] != null)
@@ -141,6 +175,24 @@ namespace PP_OS
 
                         fileStream = new FileStream(fileManager.GamePaths[i, 6], FileMode.Open);
                         title = Texture2D.FromStream(graphicsDevice, fileStream);
+
+                        result = new RenderTarget2D(graphicsDevice, title.Width, title.Height);
+
+                        graphicsDevice.SetRenderTarget(result);
+                        graphicsDevice.Clear(Color.Black);
+
+                        spriteBatch = new SpriteBatch(graphicsDevice);
+                        spriteBatch.Begin(SpriteSortMode.Immediate, blendColor);
+                        spriteBatch.Draw(title, title.Bounds, Color.White);
+                        spriteBatch.End();
+
+                        spriteBatch.Begin(SpriteSortMode.Immediate, blendAlpha);
+                        spriteBatch.Draw(title, title.Bounds, Color.White);
+                        spriteBatch.End();
+
+                        graphicsDevice.SetRenderTarget(null);
+
+                        title = result as Texture2D;
                     }
                     
                     string songPath = Directory.GetCurrentDirectory() + @"\" + fileManager.GamePaths[i, 3];
@@ -174,6 +226,7 @@ namespace PP_OS
                     thumbnails.Add(new Thumbnail(texture, new Vector2((Game1.ScreenSize.X / 2f) + ((i - Game1.CurrentThumbnail)), (Game1.ScreenSize.Y / 2f) + ((lastPlatform) * 135)), tmpString, fileManager.GamePaths[i, 0], 0.1f, i, fileManager.GamePaths[i, 4], song, fileManager.GamePaths[i, 5], Game1.CurrentPlatform, title));
                     
                     fileStream.Close();
+                    fileStream.Dispose();
                 }
             }
 
